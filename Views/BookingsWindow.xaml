@@ -1,0 +1,16 @@
+﻿<Window x:Class="HotelManagementSystem.BookingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Бронювання" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="BookingsDataGrid" AutoGenerateColumns="True" 
+                  HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                  Margin="10" Height="300"/>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+            <Button Content="Додати" Width="100" Margin="5" Click="AddBooking_Click"/>
+            <Button Content="Редагувати" Width="100" Margin="5" Click="EditBooking_Click"/>
+            <Button Content="Видалити" Width="100" Margin="5" Click="DeleteBooking_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

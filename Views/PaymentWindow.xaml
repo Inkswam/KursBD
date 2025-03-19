@@ -1,0 +1,25 @@
+﻿<Window x:Class="HotelManagementSystem.PaymentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Оплата бронювання" Height="300" Width="400">
+    <Grid>
+        <StackPanel Margin="10">
+            <Label Content="Бронювання:"/>
+            <ComboBox x:Name="BookingComboBox"/>
+
+            <Label Content="Сума до оплати:"/>
+            <TextBlock x:Name="TotalAmountTextBlock" FontSize="16" FontWeight="Bold"/>
+
+            <Label Content="Спосіб оплати:"/>
+            <ComboBox x:Name="PaymentMethodComboBox">
+                <ComboBoxItem Content="Банківська картка"/>
+                <ComboBoxItem Content="Готівка"/>
+            </ComboBox>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <Button Content="Оплатити" Width="100" Margin="5" Click="Pay_Click"/>
+                <Button Content="Скасувати" Width="100" Margin="5" Click="Cancel_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

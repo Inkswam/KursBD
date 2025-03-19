@@ -1,0 +1,37 @@
+﻿<Window x:Class="HotelManagementSystem.AddEditRoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Додати/Редагувати номер" Height="300" Width="400">
+    <Grid>
+        <StackPanel Margin="10">
+            <Label Content="Номер кімнати:"/>
+            <TextBox x:Name="RoomNumberTextBox"/>
+            
+            <Label Content="Категорія:"/>
+            <ComboBox x:Name="CategoryComboBox">
+                <ComboBoxItem Content="Стандарт"/>
+                <ComboBoxItem Content="Люкс"/>
+                <ComboBoxItem Content="Напівлюкс"/>
+                <ComboBoxItem Content="Сімейний"/>
+                <ComboBoxItem Content="Бізнес"/>
+            </ComboBox>
+            
+            <Label Content="Статус:"/>
+            <ComboBox x:Name="StatusComboBox">
+                <ComboBoxItem Content="вільний"/>
+                <ComboBoxItem Content="заброньований"/>
+                <ComboBoxItem Content="зайнятий"/>
+                <ComboBoxItem Content="прибирання"/>
+                <ComboBoxItem Content="ремонт"/>
+            </ComboBox>
+            
+            <Label Content="Ціна за ніч:"/>
+            <TextBox x:Name="PriceTextBox"/>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <Button Content="Зберегти" Width="80" Margin="5" Click="SaveRoom_Click"/>
+                <Button Content="Скасувати" Width="80" Margin="5" Click="Cancel_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

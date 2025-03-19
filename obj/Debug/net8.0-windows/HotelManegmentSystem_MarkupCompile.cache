@@ -1,0 +1,20 @@
+﻿HotelManegmentSystem
+
+
+winexe
+C#
+.cs
+C:\KursBD\HotelManegmentSystem\obj\Debug\net8.0-windows\
+HotelManegmentSystem
+none
+false
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+C:\KursBD\HotelManegmentSystem\App.xaml
+151035893681
+
+39-471257480
+2361469978446
+MainWindow.xaml;Views\AddBookingWindow.xaml;Views\AddEditStaffWindow.xaml;Views\AddGuestWindow.xaml;Views\AssignCleaningWindow.xaml;Views\BookingsWindow.xaml;Views\EditRoomWindow .xaml;Views\EditServiceWindow.xaml;Views\OrderServiceWindow.xaml;Views\PaymentWindow.xaml;Views\RevenueReportWindow.xaml;Views\RoomManagementWindow.xaml;Views\RoomOccupancyReport.xaml;Views\ServicesManagementWindow.xaml;Views\StaffManagementWindow.xaml;
+
+False
+
