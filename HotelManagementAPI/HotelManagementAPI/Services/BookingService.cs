@@ -15,7 +15,7 @@ public class BookingService
     
     
 
-    public async Task<IEnumerable<RoomDto>> GetAvailableRoomTypesAsync(DateOnly checkIn, DateOnly checkOut, int floor)
+    public async Task<IEnumerable<RoomDto>> GetAvailableRoomTypesAsync(string roomType, DateOnly checkIn, DateOnly checkOut, int floor)
     {
         var checkInParam = new Npgsql.NpgsqlParameter("@start_date", checkIn);
         var checkOutParam = new Npgsql.NpgsqlParameter("@end_date", checkOut);
@@ -25,12 +25,16 @@ public class BookingService
             .SqlQuery<RoomDto>($"SELECT * FROM get_available_room_types({checkInParam}, {checkOutParam}, {floorParam})")
             .Select(r => new RoomDto
             {
-                room_type = r.room_type,  // Assuming 'r.Type' is already of type ERoomType
+                room_type = r.room_type,  
                 capacity = r.capacity,
                 price = r.price
             })
             .ToListAsync();
 
+        result = result.FindAll(r => 
+            string.Equals(r.room_type, roomType, StringComparison.CurrentCultureIgnoreCase) ||
+            string.Equals("Any", roomType, StringComparison.CurrentCultureIgnoreCase)
+        );
         return result;
     }
 }

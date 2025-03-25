@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Claims;
+using System.Text.Json;
 using HotelManagementAPI.Entities.DTOs;
 using HotelManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,19 @@ public class AuthenticationController : ControllerBase
     }
     
     [HttpGet]
+    public Task<ActionResult> GetUser(CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var email = (User.Identity as ClaimsIdentity)!.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(email))
+                return Unauthorized();
+
+            var userDto = await _userService.GetUserByEmailAsync(email, ct);
+
+            return Ok(userDto);
+        });
+    [HttpGet]
+    
     public Task<ActionResult> IsAuthenticated()
     {
         if(User.Identity is { IsAuthenticated: true })

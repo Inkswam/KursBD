@@ -4,10 +4,10 @@ export class Filter {
   private _roomType: string;
   private _checkinDate: Date = new Date();
   private _checkoutDate: Date = new Date();
-  private _floor: number = 1;
+  private _floor: number = 1
 
   constructor() {
-    this._roomType = ERoomType.Single
+    this._roomType = ERoomType.Any
     this._checkinDate = new Date();
     this._checkoutDate.setDate(this.checkinDate.getDate() + 1);
     this._floor = 1;

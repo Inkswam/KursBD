@@ -3,8 +3,8 @@
     <span class="title">Hotel</span>
   </button>
   <span class="spacer"></span>
-  <div class="profile">
-    <button *ngIf="authenticationService.username(); else showLogin" mat-fab extended class="account-button" disableRipple>
+  <div class="profile" *ngIf="authenticationService.username(); else showLogin">
+    <button  mat-fab extended class="account-button" disableRipple>
       <span>{{ authenticationService.username() }}</span>
       <mat-icon class="button-icon">account_circle</mat-icon>
     </button>

@@ -1,1 +1,88 @@
-<p>room-search-page works!</p>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" opened>
+    <div class="sidenav-content">
+      <form
+        #form="ngForm"
+        (submit)="onSubmit(form)"
+        novalidate
+        autocomplete="off"
+        class="search-form"
+      >
+        <h3>Search</h3>
+        <mat-form-field appearance="outline">
+          <mat-label>Room Type</mat-label>
+          <mat-select
+            name="roomType"
+            #roomType="ngModel"
+            [(ngModel)]="filter.roomType"
+          >
+            <mat-option *ngFor="let roomType of roomTypeEnum" [value]="roomType[0]">{{roomType[1]}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Check-in</mat-label>
+          <input
+            matInput
+            [min] = "_currentDate"
+            name="checkinDate"
+            #checkinDate="ngModel"
+            [(ngModel)]="filter.checkinDate"
+            [matDatepicker]="checkInPicker"
+            readonly>
+          <mat-datepicker-toggle matIconSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+          <mat-datepicker #checkInPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Check-out</mat-label>
+          <input
+            matInput
+            [min]="_tomorrowDate"
+            name="checkoutDate"
+            #checkoutDate="ngModel"
+            [(ngModel)]="filter.checkoutDate"
+            [matDatepicker]="checkOutPicker"
+            readonly
+          >
+          <mat-datepicker-toggle matIconSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
+          <mat-datepicker #checkOutPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Floor</mat-label>
+          <input
+            matInput
+            type="number"
+            min="1" max="3"
+
+            name="floor"
+            #floor="ngModel"
+            [(ngModel)]="filter.floor"
+          >
+        </mat-form-field>
+        <button mat-button color="primary" class="search-button">Search</button>
+      </form>
+
+      <div class="filters-container">
+        <h3>Filters</h3>
+        <mat-checkbox>Budget Hotel</mat-checkbox>
+        <mat-checkbox>Breakfast Included</mat-checkbox>
+        </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="menu-button-container">
+      <button mat-icon-button (click)="sidenav.toggle()" class="toggle-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div class="available-rooms-container">
+      <h2>Available Rooms</h2>
+      <div class="room-list">
+        <app-room-card *ngFor="let room of availableRooms" [room]="room"></app-room-card>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,24 @@
+<mat-card class="room-card">
+  <div class="room-image">
+<!--    <img [src]="room.imageUrl || 'https://via.placeholder.com/150'" alt="Room Image" />-->
+    <img ngSrc="https://placehold.co/600x400" alt="Room Image" [width]="200" [height]="200"/>
+  </div>
+  <div class="room-info">
+    <h3>{{ room.room_type.toUpperCase() }}</h3>
+    <p>10 km from city centre</p>
+    <p>Free cancellation, Breakfast included</p>
+    <div class="room-details">
+      <span>{{ room.capacity }}• bed | </span>
+      <span>1• bathroom</span>
+    </div>
+  </div>
+  <div class="room-price">
+    <p class="rating">
+<!--      <span class="score" [ngClass]="getRatingClass(room.rating)">{{ room.rating }}</span>-->
+      <span>Excellent</span>
+      <span>17883 reviews</span>
+    </p>
+    <p class="price">${{ room.price }}</p>
+    <button mat-raised-button color="primary">See booking options</button>
+  </div>
+</mat-card>

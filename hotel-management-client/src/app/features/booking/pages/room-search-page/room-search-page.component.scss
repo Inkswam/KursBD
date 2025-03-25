@@ -1,0 +1,76 @@
+.sidenav-container {
+  padding-top: 10vh;
+  height: 100vh;
+  display: flex;
+}
+
+mat-sidenav{
+  padding-top: 10vh;
+  border-right: 2px solid #f4f4f4;
+}
+
+//mat-sidenav::-webkit-scrollbar {
+//  display: none;
+//}
+
+.sidenav-content {
+  padding: 20px;
+  background-color: #f4f4f4;
+  height: 95%;
+}
+
+.search-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: left;
+}
+
+@media (max-width: 768px) {
+  mat-sidenav {
+    width: 250px;
+  }
+}
+
+.search-form{
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  gap: 10px;
+  background: var(--mat-sys-on-primary);
+  padding: 15px;
+  border-radius: 30px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+}
+
+.menu-button-container{
+  width: fit-content;
+  position: fixed;
+}
+
+mat-sidenav-content {
+  display: flex;
+  width: 100%;
+}
+
+.available-rooms-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  padding-left: 20px;
+  width: 100%;
+  height: fit-content;
+  min-height: 90vh;
+  margin-left: 20px;
+}
+
+mat-form-field {
+  flex: 1;
+  min-width: 120px;
+}

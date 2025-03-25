@@ -22,6 +22,15 @@ public class UserService
         _credentialsService = credentialsService;
     }
 
+
+    public async Task<UserDto?> GetUserByEmailAsync(string email, CancellationToken ct)
+    {
+        var userModel = await _context.Users.FindAsync([email], cancellationToken: ct);
+        if (userModel == null)
+            throw new NullReferenceException("User not found");
+        
+        return _mapper.Map<UserDto>(userModel);
+    }
     
     public async Task<UserDto> CreateGuestUserAsync(UserDto user, CancellationToken ct)
     {

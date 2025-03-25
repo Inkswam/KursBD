@@ -1,5 +1,5 @@
-import {afterNextRender, Component, inject, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {afterNextRender, Component, Inject, inject, LOCALE_ID, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {User} from '../../../shared/models/user.model';
 import {MatFormField, MatInput, MatLabel, MatSuffix} from '@angular/material/input';
@@ -14,7 +14,7 @@ import {Filter} from '../../../shared/models/filter.model';
 import {FormsModule, NgForm} from '@angular/forms';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {ERoomType} from '../../../shared/enums/eroom-type.enum';
-import {NgForOf} from '@angular/common';
+import {formatDate, NgForOf} from '@angular/common';
 import {BookingService} from '../../../features/booking/booking.service';
 
 @Component({
@@ -43,13 +43,14 @@ export class HomePageComponent implements OnInit {
   private authenticationService = inject(AuthenticationService);
   public bookingService = inject(BookingService);
   private router = inject(Router);
+  //private route: ActivatedRoute = inject(ActivatedRoute);
   roomTypeEnum = Object.entries(ERoomType);
   private role: string | null;
   public _currentDate: Date;
   public _tomorrowDate: Date;
   public filter: Filter;
 
-  constructor() {
+  constructor(@Inject(LOCALE_ID) private locale: string) {
 
     this.role = null;
     this._currentDate = new Date();
@@ -92,13 +93,16 @@ export class HomePageComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.bookingService.isFormSubmitted = true;
+    let checkinDateString = formatDate(this.filter.checkinDate, 'YYYY-MM-ddTHH:mm:ss.sssZ', this.locale);
+    let checkoutDateString = formatDate(this.filter.checkoutDate, 'YYYY-MM-ddTHH:mm:ss.sssZ', this.locale);
+
     if (form.valid) {
-      this.bookingService.getAvailableRooms(this.filter).subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-        error: (err) => {
-          console.log(err);
+      this.router.navigate(['/room-search-page'], {
+        queryParams: {
+          roomType: this.filter.roomType,
+          checkinDate: checkinDateString,
+          checkoutDate: checkoutDateString,
+          floor: this.filter.floor
         },
       });
     }

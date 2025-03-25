@@ -1,4 +1,5 @@
-﻿using HotelManagementAPI.Services;
+﻿using System.Text.Json;
+using HotelManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagementAPI.Controllers;
@@ -17,9 +18,19 @@ public class CustomerController : ControllerBase
     
     
     [HttpGet]
-    public async Task<ActionResult> GetAvailableRoomTypes([FromQuery] DateOnly checkIn, [FromQuery] DateOnly checkOut, [FromQuery] int floor)
+    public async Task<ActionResult> GetAvailableRoomTypes(
+        [FromQuery] string roomType,
+        [FromQuery] DateOnly checkIn, 
+        [FromQuery] DateOnly checkOut, 
+        [FromQuery] int floor)
     {
-        var availableRooms = await _bookingService.GetAvailableRoomTypesAsync(checkIn, checkOut, floor);
-        return Ok(availableRooms);
+        var availableRooms = await _bookingService.GetAvailableRoomTypesAsync(roomType, checkIn, checkOut, floor);
+        
+        var rooms = new List<string>();
+        foreach (var room in availableRooms)
+        {
+            rooms.Add(JsonSerializer.Serialize(room));
+        }
+        return Ok(rooms);
     }
 }
