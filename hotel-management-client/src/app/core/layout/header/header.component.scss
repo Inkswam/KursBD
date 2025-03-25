@@ -1,0 +1,51 @@
+@use '@angular/material' as mat;
+
+.header{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  background-color: var(--mat-sys-on-primary);
+  color: var(--mat-sys-primary);
+  height: 10vh;
+  padding: 0 16px;
+  border-bottom: 2px solid var(--mat-sys-primary);
+}
+
+.spacer{
+  flex: auto;
+}
+
+.title{
+  color: var(--mat-sys-primary);
+}
+
+.main-page-button{
+  flex: initial;
+  background-color: transparent;
+  font-size: var(--mat-sys-headline-large-size);
+}
+
+.profile{
+  display: flex;
+}
+
+.login-signup-container{
+  flex: initial;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+}
+.login-button,
+.signup-button{
+  flex: initial;
+  width: 40%;
+}
+
+.account-button{
+  justify-self: right;
+  justify-content: space-between;
+  font-size: var(--mat-sys-headline-small-font);
+  @include mat.fab-overrides((
+    container-color: var(--mat-sys-secondary-container),
+  ));
+}

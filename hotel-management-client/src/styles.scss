@@ -1,0 +1,36 @@
+@use "@angular/material" as mat;
+
+html {
+  @include mat.theme(
+      (
+        color: (
+          theme-type: light,
+          primary: mat.$azure-palette,
+          tertiary: mat.$blue-palette,
+        ),
+        typography: Roboto,
+        density: 0,
+      )
+  );
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.mat-mdc-fab{
+  --mdc-fab-container-elevation-shadow: none;
+  --mdc-fab-hover-container-elevation-shadow: none;
+  --mdc-fab-pressed-container-elevation-shadow: none;
+  --mdc-fab-focus-container-elevation-shadow: none;
+  box-shadow: none !important;
+}

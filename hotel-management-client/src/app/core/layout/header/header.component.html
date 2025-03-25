@@ -1,0 +1,36 @@
+<mat-toolbar class="header">
+  <button mat-button routerLink class="main-page-button">
+    <span class="title">Hotel</span>
+  </button>
+  <span class="spacer"></span>
+  <div class="profile">
+    <button *ngIf="authenticationService.username(); else showLogin" mat-fab extended class="account-button" disableRipple>
+      <span>{{ authenticationService.username() }}</span>
+      <mat-icon class="button-icon">account_circle</mat-icon>
+    </button>
+  </div>
+
+  <ng-template #showLogin>
+    <div class="login-signup-container">
+      <button
+        mat-flat-button
+        class="login-button"
+        [routerLink]="'/login'"
+        routerLinkActive="activate-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Log in</span>
+      </button>
+      <span class="spacer"></span>
+      <button
+        mat-stroked-button
+        class="signup-button"
+        [routerLink]="'/register'"
+        routerLinkActive="activate-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Sign up</span>
+      </button>
+    </div>
+  </ng-template>
+</mat-toolbar>
