@@ -4,6 +4,7 @@ using HotelManagementAPI.Context;
 using HotelManagementAPI.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HotelManagementAPI.Migrations
 {
     [DbContext(typeof(HotelManagementContext))]
-    partial class HotelManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20250326120648_ImageSupport")]
+    partial class ImageSupport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,10 +147,6 @@ namespace HotelManagementAPI.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("room_number");
 
-                    b.Property<ERoomType>("RoomType")
-                        .HasColumnType("room_type")
-                        .HasColumnName("room_type");
-
                     b.Property<string>("Services")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -213,7 +212,7 @@ namespace HotelManagementAPI.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("name");
 
-                    b.Property<long>("Price")
+                    b.Property<long?>("Price")
                         .HasColumnType("bigint")
                         .HasColumnName("price");
 

@@ -12,5 +12,6 @@ export const authenticationGuard = async () => {
   if(isAuthenticated) {
     return true;
   }
-  return router.parseUrl('/login');
+  const returnUrl = router.routerState.snapshot.url;
+  return router.createUrlTree(['/login'], {queryParams: {returnUrl: returnUrl}});
 };

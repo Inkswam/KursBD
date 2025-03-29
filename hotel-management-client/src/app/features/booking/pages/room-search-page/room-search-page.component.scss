@@ -9,14 +9,11 @@ mat-sidenav{
   border-right: 2px solid #f4f4f4;
 }
 
-//mat-sidenav::-webkit-scrollbar {
-//  display: none;
-//}
-
 .sidenav-content {
   padding: 20px;
   background-color: #f4f4f4;
-  height: 95%;
+  height: fit-content;
+  min-height: 95%;
 }
 
 .search-button {
@@ -73,4 +70,18 @@ mat-sidenav-content {
 mat-form-field {
   flex: 1;
   min-width: 120px;
+}
+
+mat-divider{
+  margin: 30px 10px 30px 10px;
+}
+
+.service-accordion{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.service-container{
+  padding-bottom: 20px;
 }

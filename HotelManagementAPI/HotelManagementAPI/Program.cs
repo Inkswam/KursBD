@@ -21,6 +21,7 @@ builder.Services.AddScoped<CredentialsService>();
 builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookingService>();
+builder.Services.AddScoped<StringHelper>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -101,6 +102,14 @@ app.UseCors("Policy1");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Uploads")
+    ),
+    RequestPath = "/Uploads"
+});
 
 app.MapControllerRoute(
     name: "default",

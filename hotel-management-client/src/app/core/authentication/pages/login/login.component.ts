@@ -29,7 +29,6 @@ import {User} from '../../../../shared/models/user.model';
     MatLabel,
     MatSuffix,
     ReactiveFormsModule,
-    RouterLink,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -53,12 +52,20 @@ export class LoginComponent {
           console.log(data);
           this.service.formUser = new User();
           sessionStorage.setItem('user', JSON.stringify(data));
-          this.router.navigate([`/${(data as User).userRole}`])
+          this.service.getUsername();
+
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || `/${(data as User).userRole}`;
+          this.router.navigateByUrl(returnUrl);
         },
         error: (err) => {
           console.log(err);
         },
       });
     }
+  }
+
+  goToRegister(){
+    const savedQuery = this.route.snapshot.queryParamMap.get('returnUrl');
+    this.router.navigate(['/register'], {queryParams: {returnUrl: savedQuery}});
   }
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoomPageComponent } from './room-page.component';
+import { ServicePanelComponent } from './service-panel.component';
 
-describe('RoomPageComponent', () => {
-  let component: RoomPageComponent;
-  let fixture: ComponentFixture<RoomPageComponent>;
+describe('ServicePanelComponent', () => {
+  let component: ServicePanelComponent;
+  let fixture: ComponentFixture<ServicePanelComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RoomPageComponent]
+      imports: [ServicePanelComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RoomPageComponent);
+    fixture = TestBed.createComponent(ServicePanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

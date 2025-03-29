@@ -8,7 +8,6 @@ import {MatOption, MatSelect} from '@angular/material/select';
 import {formatDate, NgForOf} from '@angular/common';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
-import {MatCheckbox} from '@angular/material/checkbox';
 import {RoomCardComponent} from '../../components/room-card/room-card.component';
 import {MatIcon} from '@angular/material/icon';
 import {Filter} from '../../../../shared/models/filter.model';
@@ -16,6 +15,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BookingService} from '../../booking.service';
 import {Room} from '../../../../shared/models/room.model';
 import {ERoomType} from '../../../../shared/enums/eroom-type.enum';
+import {MatAccordion} from '@angular/material/expansion';
+import {ServicePanelComponent} from '../../components/service-panel/service-panel.component';
+import {Service} from '../../../../shared/models/service.model';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-room-search-page',
@@ -33,13 +36,15 @@ import {ERoomType} from '../../../../shared/enums/eroom-type.enum';
     NgForOf,
     MatButton,
     MatSidenavContainer,
-    MatCheckbox,
     MatIcon,
     MatIconButton,
     RoomCardComponent,
     MatSidenav,
     MatSidenavContent,
-    MatSuffix
+    MatSuffix,
+    MatAccordion,
+    ServicePanelComponent,
+    MatDividerModule
   ],
   styleUrls: ['./room-search-page.component.scss']
 })
@@ -48,6 +53,7 @@ export class RoomSearchPageComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute);
 
   public availableRooms: Room[] = [];
+  public services: Service[] = [];
   public roomTypeEnum = Object.entries(ERoomType);
   public role: string | null;
   public _currentDate: Date;
@@ -70,7 +76,8 @@ export class RoomSearchPageComponent implements OnInit {
       this.filter.floor = +params['floor'];
     })
 
-    this.searchRooms()
+    this.getServices();
+    this.searchRooms();
   }
   searchRooms() {
     if (!this.filter.checkinDate || !this.filter.checkoutDate || this.filter.floor === undefined) {
@@ -80,8 +87,8 @@ export class RoomSearchPageComponent implements OnInit {
 
     this.bookingService.getAvailableRooms(this.filter).subscribe( {
       next: rooms => {
-        for(let r of rooms) {
-          this.availableRooms.push(JSON.parse(r));
+        for(let room of rooms) {
+          this.availableRooms.push(room);
         }
       },
       error: error => {
@@ -89,6 +96,19 @@ export class RoomSearchPageComponent implements OnInit {
       }
     });
 
+  }
+
+  getServices(){
+    this.bookingService.getServices().subscribe( {
+      next: services => {
+        for(let service of services) {
+          this.services.push(service);
+        }
+      },
+      error: error => {
+        console.log(error);
+      }
+    })
   }
 
   onSubmit(form: NgForm) {
@@ -109,5 +129,19 @@ export class RoomSearchPageComponent implements OnInit {
     }
 
     this.searchRooms();
+  }
+
+  proceedToBooking(room: Room){
+    let servicesString = this.bookingService.getSelectedServices();
+
+    this.router.navigate(['/checkout-page'], {
+      queryParams: {
+        room: JSON.stringify(room),
+        checkinDate: this.filter.checkinDate.toISOString(),
+        checkoutDate: this.filter.checkoutDate.toISOString(),
+        services: JSON.stringify(servicesString),
+        floor: this.filter.floor
+      }
+    });
   }
 }

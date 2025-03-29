@@ -5,6 +5,7 @@ import {MatAnchor, MatButton, MatFabButton} from '@angular/material/button';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {MatIcon} from '@angular/material/icon';
 import {NgIf} from '@angular/common';
+import {authenticationGuard} from '../../authentication/authentication.guard';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,6 @@ export class HeaderComponent implements AfterContentInit {
   constructor(public authenticationService: AuthenticationService) { }
 
   ngAfterContentInit(): void {
-
+    this.authenticationService.getUsername();
   }
 }

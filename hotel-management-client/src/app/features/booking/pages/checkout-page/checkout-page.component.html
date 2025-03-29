@@ -1,1 +1,153 @@
-<p>checkout-page works!</p>
+<div class="checkout-container">
+  <div class="checkout-left">
+    <mat-card>
+      <mat-card-title>Step 1: Personal Data</mat-card-title>
+      <mat-card-content>
+        <form name="personalDataForm" #personalDataForm>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>First Name</mat-label>
+            <input
+              matInput
+              placeholder="John"
+              name="firstName"
+              #firstName="ngModel"
+              [(ngModel)]="this.user.firstName"
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Last Name</mat-label>
+            <input
+              matInput
+              placeholder="Doe"
+              name="lastName"
+              #lastName="ngModel"
+              [(ngModel)]="this.user.lastName"
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email Address</mat-label>
+            <input
+              matInput
+              type="email"
+              placeholder="email@example.com"
+              name="email"
+              #email="ngModel"
+              [(ngModel)]="this.user.email"
+            >
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Phone Number</mat-label>
+            <input
+              matInput
+              type="tel"
+              placeholder="+123 456 7890"
+              name="phoneNumber"
+              #phoneNumber="ngModel"
+              [(ngModel)]="this.user.phoneNumber"
+            >
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-divider></mat-divider>
+
+    <mat-card class="payment-details">
+      <mat-card-title>Step 2: Payment Details</mat-card-title>
+      <mat-radio-group aria-label="Select an option" [(ngModel)]="this.payment.method">
+        <mat-accordion class="payment-options-container">
+          <mat-radio-button [value]="EPaymentMethod.CreditCard">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                Credit card
+              </mat-expansion-panel-header>
+              <div class="expansion-pane-body">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Name on Card</mat-label>
+                  <input matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Card Number</mat-label>
+                  <input matInput type="text" placeholder="**** **** **** ****">
+                </mat-form-field>
+                <div class="card-details">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Expiry Date</mat-label>
+                    <input matInput type="text" placeholder="MM/YY">
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>CVV</mat-label>
+                    <input matInput type="password" placeholder="***">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-radio-button>
+
+          <mat-radio-button [value]="EPaymentMethod.Cash">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                Cash
+              </mat-expansion-panel-header>
+              <div class="expansion-pane-body">
+                Pay when you come to hotel.
+              </div>
+            </mat-expansion-panel>
+          </mat-radio-button>
+
+          <mat-radio-button [value]="EPaymentMethod.GooglePay">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                Google Pay
+              </mat-expansion-panel-header>
+              <div class="expansion-pane-body">
+                Pay via Google Pay Service.
+              </div>
+            </mat-expansion-panel>
+          </mat-radio-button>
+
+          <mat-radio-button [value]="EPaymentMethod.ApplePay">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                Apple Pay
+              </mat-expansion-panel-header>
+              <div class="expansion-pane-body">
+                Pay via Apple Pay Service.
+              </div>
+            </mat-expansion-panel>
+          </mat-radio-button>
+
+          <mat-radio-button [value]="EPaymentMethod.PayPal">
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                Pay Pal
+              </mat-expansion-panel-header>
+              <div class="expansion-pane-body">
+                Pay via Pay Pal Service.
+              </div>
+            </mat-expansion-panel>
+          </mat-radio-button>
+        </mat-accordion>
+      </mat-radio-group>
+    </mat-card>
+    </div>
+
+    <div class="checkout-right">
+    <mat-card class="room-card">
+      <img ngSrc="{{environment.apiBaseUrl + '/' + room.image_url}}" alt="Room Image" class="room-image" width="350" height="350">
+      <mat-card-title>{{ room.room_type }}</mat-card-title>
+      <mat-card-content class="room-details">
+        <p><strong>Check-in:</strong> {{ this.reservation.checkinDate.toISOString().split('T')[0] }}</p>
+        <p><strong>Check-out:</strong> {{ this.reservation.checkoutDate.toISOString().split('T')[0] }}</p>
+        <p><strong>Base Price:</strong> ${{ this.room.price / 100 }}</p>
+        <div *ngFor="let service of this.services">
+          <p><strong>{{ service.name }}:</strong> ${{ service.price / 100}}</p>
+        </div>
+        <p class="total-price"><strong>Total:</strong> ${{this.total / 100}}</p>
+      </mat-card-content>
+    </mat-card>
+    <div class="submit-button-container">
+      <button mat-flat-button (click)="bookNow(personalDataForm )">Book now</button>
+    </div>
+    </div>
+</div>

@@ -21,5 +21,5 @@ public class Service
     public string? Description { get; set; }
     
     [Column("price")]
-    public long? Price { get; set; }
+    public long Price { get; set; }
 }

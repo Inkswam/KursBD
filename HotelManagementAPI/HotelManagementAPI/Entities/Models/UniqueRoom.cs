@@ -21,5 +21,8 @@ public class UniqueRoom
     [Column("price")]
     public long Price { get; set; }
     
+    [Column("image_url")]
+    public string? ImageUrl { get; set; }
+    
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
 }

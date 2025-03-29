@@ -19,12 +19,13 @@ namespace HotelManagementAPI.Migrations
                 RETURNS TABLE (
                     room_type room_type,
                     capacity INT,
-                    price BIGINT
+                    price BIGINT,
+                    image_url TEXT
                 ) 
                 AS $$
                 BEGIN
                     RETURN QUERY 
-                    SELECT ur.room_type, ur.capacity, ur.price
+                    SELECT ur.room_type, ur.capacity, ur.price, ur.image_url
                     FROM unique_room ur
                     WHERE EXISTS (
                         SELECT 1 

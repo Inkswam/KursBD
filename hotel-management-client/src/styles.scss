@@ -34,3 +34,7 @@ body::-webkit-scrollbar {
   --mdc-fab-focus-container-elevation-shadow: none;
   box-shadow: none !important;
 }
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  display: none!important;
+}

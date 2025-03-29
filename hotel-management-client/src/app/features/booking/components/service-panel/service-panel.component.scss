@@ -1,0 +1,15 @@
+mat-expansion-panel-header {
+  height: fit-content;
+  display: flex;
+  flex-direction: row;
+}
+
+mat-panel-description{
+  justify-content: space-between;
+  align-items: center;
+  flex: initial;
+}
+
+mat-panel-title{
+  flex: auto;
+}

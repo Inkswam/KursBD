@@ -18,7 +18,6 @@ import {
 } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
-import { EUserRole } from '../../../../shared/enums/euser-role.enum';
 import {AuthenticationService} from '../../authentication.service';
 import {User} from '../../../../shared/models/user.model';
 
@@ -57,6 +56,7 @@ export class RegisterComponent {
   constructor(
     public service: AuthenticationService,
     private router: Router,
+    private route: ActivatedRoute
   ) {
     service.formUser.password = "123456";
     service.formUser.firstName = "John";
@@ -92,12 +92,19 @@ export class RegisterComponent {
           console.log(data);
           this.service.formUser = new User();
           sessionStorage.setItem('user', JSON.stringify(data));
-          this.router.navigate([`/${(data as User).userRole}`]);
+          this.service.getUsername();
+
+          const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || `/${(data as User).userRole}`;
+          this.router.navigateByUrl(returnUrl);
         },
         error: (error) => {
           console.log(error);
         },
       });
     }
+  }
+  goToLogin(){
+    const savedQuery = this.route.snapshot.queryParamMap.get('returnUrl');
+    return this.router.navigate(['/login'], {queryParams: {returnUrl: savedQuery}});
   }
 }

@@ -23,6 +23,10 @@ public class Reservation
     public required int RoomNumber { get; set; }
     
     [Required]
+    [Column("room_type")]
+    public required ERoomType RoomType { get; set; }
+    
+    [Required]
     [Column("check_in_date")]
     public required DateOnly CheckInDate { get; set; }
     

@@ -63,12 +63,13 @@
         </mat-form-field>
         <button mat-button color="primary" class="search-button">Search</button>
       </form>
-
-      <div class="filters-container">
-        <h3>Filters</h3>
-        <mat-checkbox>Budget Hotel</mat-checkbox>
-        <mat-checkbox>Breakfast Included</mat-checkbox>
-        </div>
+      <mat-divider></mat-divider>
+      <div class="service-container">
+        <h3>Services</h3>
+        <mat-accordion class="service-accordion">
+          <app-service-panel *ngFor="let service of services" [service]="service"></app-service-panel>
+        </mat-accordion>
+      </div>
     </div>
   </mat-sidenav>
 
@@ -81,7 +82,7 @@
     <div class="available-rooms-container">
       <h2>Available Rooms</h2>
       <div class="room-list">
-        <app-room-card *ngFor="let room of availableRooms" [room]="room"></app-room-card>
+        <app-room-card *ngFor="let room of availableRooms" [room]="room" (outRoom)="proceedToBooking($event)"></app-room-card>
       </div>
     </div>
   </mat-sidenav-content>

@@ -1,4 +1,8 @@
 ﻿using System.Text.Json;
+using HotelManagementAPI.Entities;
+using HotelManagementAPI.Entities.DTOs;
+using HotelManagementAPI.Entities.Models;
+using HotelManagementAPI.Entities.Wrappers;
 using HotelManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,21 +20,71 @@ public class CustomerController : ControllerBase
         _bookingService = bookingService;
     }
     
-    
-    [HttpGet]
-    public async Task<ActionResult> GetAvailableRoomTypes(
-        [FromQuery] string roomType,
-        [FromQuery] DateOnly checkIn, 
-        [FromQuery] DateOnly checkOut, 
-        [FromQuery] int floor)
+    protected async Task<ActionResult> ExecuteSafely(Func<Task<ActionResult>> action)
     {
-        var availableRooms = await _bookingService.GetAvailableRoomTypesAsync(roomType, checkIn, checkOut, floor);
-        
-        var rooms = new List<string>();
-        foreach (var room in availableRooms)
+        try
         {
-            rooms.Add(JsonSerializer.Serialize(room));
+            return await action();
         }
-        return Ok(rooms);
+        catch (OperationCanceledException)
+        {
+            return StatusCode(StatusCodes.Status499ClientClosedRequest, 
+                JsonSerializer.Serialize(new { message = "Operation was canceled" }));
+        }
+        catch (NullReferenceException e)
+        {
+            return StatusCode(StatusCodes.Status404NotFound, 
+                JsonSerializer.Serialize(new { message = e.Message }));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(StatusCodes.Status409Conflict, 
+                JsonSerializer.Serialize(new { message = e.Message }));
+        }
     }
+
+
+    [HttpGet]
+    public Task<ActionResult> GetAvailableRoomTypes(
+        [FromQuery] string roomType,
+        [FromQuery] DateOnly checkIn,
+        [FromQuery] DateOnly checkOut,
+        [FromQuery] int floor,
+        CancellationToken ct) =>
+        ExecuteSafely(async () =>
+
+        {
+            var rooms =
+                await _bookingService.GetAvailableRoomTypesAsync(roomType, checkIn, checkOut, floor, ct);
+
+            return Ok(rooms);
+        });
+
+    [HttpGet]
+    public Task<ActionResult> GetServices(CancellationToken ct) =>
+        ExecuteSafely(async () =>
+
+        {
+            var services = await _bookingService.GetAllServices(ct);
+            return Ok(services);
+        });
+
+    [HttpPost]
+    public Task<ActionResult> PlaceReservation
+    (
+        [FromBody] ReservationPaymentWrapper reservationPayment,
+        CancellationToken ct
+    ) =>
+        ExecuteSafely(async () =>
+
+        {
+            await _bookingService.SaveReservation(
+                reservationPayment.Reservation,
+                reservationPayment.Services,
+                reservationPayment.RoomFloor,
+                ct);
+            await _bookingService.SavePayment(reservationPayment.Payment, ct);
+
+            return Ok();
+        });
 }
