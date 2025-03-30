@@ -35,6 +35,7 @@ body::-webkit-scrollbar {
   box-shadow: none !important;
 }
 
-.mat-drawer-inner-container::-webkit-scrollbar {
+.mat-drawer-inner-container::-webkit-scrollbar,
+.guest-list::-webkit-scrollbar {
   display: none!important;
 }

@@ -1,0 +1,33 @@
+<mat-toolbar class="header">
+  <div class="search-container">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Search by name</mat-label>
+      <input
+        matInput
+        placeholder="Peter Diddy"
+        [(ngModel)]="searchName"
+        (input)="applyFilters()"
+      />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Search by phone</mat-label>
+      <input
+        matInput
+        placeholder="099 098 97 96"
+        [(ngModel)]="searchPhone"
+        (input)="applyFilters()"
+      />
+    </mat-form-field>
+  </div>
+</mat-toolbar>
+
+
+<div class="users-list">
+  <app-guest
+    class="user"
+    *ngFor="let user of users"
+    [user]="user"
+    [reservations]="reservations.get(user.email)"
+  >
+  </app-guest>
+</div>

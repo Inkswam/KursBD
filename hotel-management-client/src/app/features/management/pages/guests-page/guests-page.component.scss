@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.search-container{
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+
+.form-field {
+  margin: 0 1rem;
+}
+
+.users-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+
+.user {
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}

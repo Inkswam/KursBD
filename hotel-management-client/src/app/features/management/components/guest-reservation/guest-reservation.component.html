@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-title>
+    <span>Reserved room: {{reservation.roomType}}</span>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="checkin">
+      <span>CheckinDate: {{reservation.checkinDate.toDateString()}}</span>
+    </div>
+    <div class="checkout">
+      <span>CheckoutDate: {{reservation.checkoutDate.toDateString()}}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

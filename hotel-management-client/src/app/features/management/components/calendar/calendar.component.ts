@@ -6,6 +6,7 @@ import {NgForOf} from '@angular/common';
 import {User} from '../../../../shared/models/user.model';
 import {MatList, MatListItem} from '@angular/material/list';
 import {Reservation} from '../../../../shared/models/reservation.model';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-calendar',
@@ -16,7 +17,8 @@ import {Reservation} from '../../../../shared/models/reservation.model';
     MatCalendar,
     MatList,
     MatListItem,
-    NgForOf
+    NgForOf,
+    MatButton
   ],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
@@ -27,13 +29,13 @@ export class CalendarComponent implements OnInit {
 
   currentDate = new Date();
   bookedDates: string[] | null;
-  users: Set<User>;
+  users: Map<string, User>;
   reservations: Reservation[];
   selectedDate: Date;
 
   constructor(private managementService: ManagementService) {
     this.bookedDates = null;
-    this.users = new Set();
+    this.users = new Map();
     this.reservations = [];
     this.selectedDate = new Date();
   }
@@ -43,7 +45,7 @@ export class CalendarComponent implements OnInit {
       next: data => {
         this.bookedDates = [];
         for(let d of data){
-          this.bookedDates.push(d);
+          this.bookedDates.push((new Date(d)).toDateString());
         }
 
         this.calendar.updateTodaysDate();
@@ -52,6 +54,8 @@ export class CalendarComponent implements OnInit {
         console.log(err);
       }
     })
+
+    this.getGuestsByCheckinDate(this.selectedDate);
   }
 
   getGuestsByCheckinDate(date: Date | null) {
@@ -62,9 +66,9 @@ export class CalendarComponent implements OnInit {
 
     this.managementService.getGuestsByDate(date).subscribe({
       next: usersReservations => {
-        this.users = new Set();
+        this.users = new Map();
         for(let user of usersReservations.users){
-          this.users.add(user);
+          this.users.set(user.email, user);
         }
 
         this.reservations = [];

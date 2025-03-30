@@ -56,8 +56,8 @@ public class AuthenticationController : ControllerBase
 
             return Ok(userDto);
         });
-    [HttpGet]
     
+    [HttpGet]
     public Task<ActionResult> IsAuthenticated()
     {
         if(User.Identity is { IsAuthenticated: true })

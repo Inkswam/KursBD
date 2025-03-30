@@ -21,11 +21,11 @@
 
       <mat-list-item
         class="sidenav-button"
-        [routerLink]=""
+        [routerLink]="'./guests'"
         routerLinkActive="active-button"
         [routerLinkActiveOptions]="{exact: true}"
       >
-        <span>Guest</span>
+        <span>Guests</span>
       </mat-list-item>
 
       <mat-list-item
@@ -78,6 +78,6 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="main-content">
-    <app-dashboard></app-dashboard>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

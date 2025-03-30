@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav';
 import {MatDivider, MatListItem, MatNavList} from '@angular/material/list';
-import {DashboardComponent} from '../dashboard/dashboard.component';
-import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-receptionist-main-page',
@@ -13,9 +12,9 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive} from '@angular/rou
     MatNavList,
     MatListItem,
     MatDivider,
-    DashboardComponent,
     RouterLink,
     RouterLinkActive,
+    RouterOutlet,
   ],
   templateUrl: './receptionist-main-page.component.html',
   styleUrl: './receptionist-main-page.component.scss'

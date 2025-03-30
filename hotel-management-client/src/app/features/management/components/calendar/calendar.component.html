@@ -1,5 +1,13 @@
-<mat-card class="calendar-container mat-elevation-z4">
-  <mat-card-title>Calendar</mat-card-title>
+<mat-card class="calendar-container">
+  <mat-card-title class="calendar-container-title">
+    <div>
+      <span>Calendar</span>
+    </div>
+    <span class="spacer"></span>
+    <button mat-flat-button class="see-more-button">
+      <span>See more</span>
+    </button>
+  </mat-card-title>
   <mat-card-content class="calendar-card-content">
     <mat-card class="calendar-card">
       <mat-card-title>
@@ -8,8 +16,7 @@
           <span class="booked">Full booked</span>
         </div>
       </mat-card-title>
-      <mat-card-content>
-        <div class="calendar-component">
+      <mat-card-content class="calendar-component">
           <mat-calendar
             [minDate]="currentDate"
             [(selected)]="selectedDate"
@@ -17,24 +24,32 @@
             [dateClass]="dateClass"
           >
           </mat-calendar>
-        </div>
       </mat-card-content>
     </mat-card>
 
     <mat-card class="chart-card">
       <mat-card-title>
         <div class="header">
-          <h3 class="picked-date">Chosen Day</h3>
-          <span class="booked">Full booked</span>
+          <h3 class="picked-date">{{selectedDate.toDateString()}}</h3>
+          <span class="booked">{{reservations.length}} room occupied</span>
         </div>
       </mat-card-title>
-      <mat-card-content>
-        <mat-list>
+      <mat-card-content class="guest-content">
+        <mat-list class="guest-list">
           <mat-list-item *ngFor="let reservation of reservations">
-            <div class="user-data">
-              <span class="user-name">{{users.}}</span>
-              <span class="trip-duration">{{reservation.checkinDate.toDateString()}}-{{reservation.checkoutDate.toDateString()}}</span>
-            </div>
+            <button mat-stroked-button class="user-data">
+              <div>
+                <span class="user-name">
+                  {{users.get(reservation.guestEmail)?.firstName}}
+                  {{users.get(reservation.guestEmail)?.lastName}}
+                </span>
+                <span class="trip-duration">
+                  {{reservation.checkinDate.toDateString()}}
+                  -
+                  {{reservation.checkoutDate.toDateString()}}
+                </span>
+              </div>
+            </button>
           </mat-list-item>
         </mat-list>
       </mat-card-content>

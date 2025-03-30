@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using HotelManagementAPI.Entities.Wrappers;
 using HotelManagementAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagementAPI.Controllers;
@@ -66,6 +67,7 @@ public class CustomerController : ControllerBase
             return Ok(services);
         });
 
+    [Authorize]
     [HttpPost]
     public Task<ActionResult> PlaceReservation
     (

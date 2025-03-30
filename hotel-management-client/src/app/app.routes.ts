@@ -9,6 +9,7 @@ import {
   ReceptionistMainPageComponent
 } from './features/management/pages/receptionist-main-page/receptionist-main-page.component';
 import {DashboardComponent} from './features/management/pages/dashboard/dashboard.component';
+import {GuestsPageComponent} from './features/management/pages/guests-page/guests-page.component';
 
 export const routes: Routes = [
   {
@@ -55,10 +56,10 @@ export const routes: Routes = [
         title: 'Dashboard',
       },
       {
-        path: 'dashboard',
-        component: DashboardComponent,
+        path: 'guests',
+        component: GuestsPageComponent,
         canActivate: [authenticationGuard],
-        title: 'Dashboard',
+        title: 'Guests',
       },
     ]
   }

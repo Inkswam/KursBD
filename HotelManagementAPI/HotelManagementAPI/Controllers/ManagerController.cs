@@ -1,9 +1,11 @@
 ﻿using System.Text.Json;
 using HotelManagementAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelManagementAPI.Controllers;
 
+[Authorize]
 [Route("[controller]/[action]")]
 [ApiController]
 public class ManagerController : ControllerBase
@@ -14,7 +16,7 @@ public class ManagerController : ControllerBase
     {
         _managementService = managementService;
     }
-    
+
     protected async Task<ActionResult> ExecuteSafely(Func<Task<ActionResult>> action)
     {
         try
@@ -23,17 +25,17 @@ public class ManagerController : ControllerBase
         }
         catch (OperationCanceledException)
         {
-            return StatusCode(StatusCodes.Status499ClientClosedRequest, 
+            return StatusCode(StatusCodes.Status499ClientClosedRequest,
                 JsonSerializer.Serialize(new { message = "Operation was canceled" }));
         }
         catch (NullReferenceException e)
         {
-            return StatusCode(StatusCodes.Status404NotFound, 
+            return StatusCode(StatusCodes.Status404NotFound,
                 JsonSerializer.Serialize(new { message = e.Message }));
         }
         catch (Exception e)
         {
-            return StatusCode(StatusCodes.Status409Conflict, 
+            return StatusCode(StatusCodes.Status409Conflict,
                 JsonSerializer.Serialize(new { message = e.Message }));
         }
     }
@@ -52,6 +54,22 @@ public class ManagerController : ControllerBase
         ExecuteSafely(async () =>
         {
             var userReservations = await _managementService.GetUserReservationsAsync(date, ct);
+            return Ok(userReservations);
+        });
+
+    [HttpGet]
+    public Task<ActionResult> GetGuestsByCheckinDate([FromQuery] DateOnly date, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var userReservations = await _managementService.GetGuestsByCheckinDate(date, ct);
+            return Ok(userReservations);
+        });
+
+    [HttpGet]
+    public Task<ActionResult> GetAllGuestsWithReservations([FromQuery] DateOnly date, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var userReservations = await _managementService.GetAllUsersWithReservations(ct);
             return Ok(userReservations);
         });
 }

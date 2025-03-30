@@ -1,1 +1,35 @@
-<p>guest-list works!</p>
+<mat-card class="guest-list-container">
+  <mat-card-title>
+    <div class="guest-list-title">
+      <span>New Guest Today</span>
+    </div>
+    <span class="spacer"></span>
+    <button mat-flat-button (click)="goToGuests()" class="see-more-button"><span>See More</span></button>
+  </mat-card-title>
+  <mat-card-content class="main-content">
+    <mat-card class="list-card">
+      <mat-card-content class="guest-content">
+        <mat-selection-list class="guest-list" multiple="false" hideSingleSelectionIndicator>
+          <mat-list-option *ngFor="let reservation of this.reservations">
+            <div class="guest">
+              <div class="name">
+                <mat-icon class="profile-icon">account_circle</mat-icon>
+                <span>
+                  {{
+                    this.users.get(reservation.guestEmail)?.firstName
+                    + " " +
+                    this.users.get(reservation.guestEmail)?.lastName
+                  }}
+                </span>
+              </div>
+              <span class="spacer"></span>
+              <div class="period">
+                <span>{{Math.round((reservation.checkoutDate.getTime() - reservation.checkinDate.getTime()) / 86400000) + " Night"}}</span>
+              </div>
+            </div>
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

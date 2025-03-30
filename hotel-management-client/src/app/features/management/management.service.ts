@@ -13,8 +13,8 @@ export class ManagementService {
   public url: string = environment.apiBaseUrl + '/Manager';
   constructor(private http: HttpClient) { }
 
-  getBookedDates(): Observable<string[]> {
-    return this.http.get<string[]>(this.url + '/GetBookedDates', {withCredentials: true});
+  getBookedDates(): Observable<Date[]> {
+    return this.http.get<Date[]>(this.url + '/GetBookedDates', {withCredentials: true});
   }
 
   getGuestsByDate(date: Date): Observable<UsersReservations> {
@@ -26,7 +26,17 @@ export class ManagementService {
         withCredentials: true
       });
   }
-  getGuestsByCheckinDate(): Observable<User[]> {
-    return this.http.get<User[]>(this.url + '/GetGuestsByCheckinDate', {withCredentials: true});
+  getGuestsByCheckinDate(date: Date): Observable<UsersReservations> {
+    return this.http.get<UsersReservations>(this.url + '/GetGuestsByCheckinDate',
+      {
+        params:{
+          date: date.toDateString(),
+        },
+        withCredentials: true
+      });
+  }
+
+  getAllGuestsWithReservations(): Observable<UsersReservations> {
+    return this.http.get<UsersReservations>(this.url + '/GetAllGuestsWithReservations', {withCredentials: true});
   }
 }
