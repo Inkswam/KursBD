@@ -1,0 +1,36 @@
+@use "@angular/material" as mat;
+
+.sidenav-container {
+  padding-top: 10vh;
+
+  height: 100vh;
+
+}
+
+.active-button {
+  span{
+    color: var(--mat-sys-primary);
+    font-weight: bold;
+  }
+}
+
+.sidenav-button{
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: 0;
+  text-align: left;
+  span{
+    font-size: var(--mat-sys-body-medium-line-height);
+  }
+}
+
+.sidenav {
+  padding-top: 10vh;
+  width: 13vw;
+  background-color: var(--mat-sys-on-primary);
+}
+.main-content {
+  padding: 16px;
+  background-color: var(--mat-sys-surface-container-low);
+}

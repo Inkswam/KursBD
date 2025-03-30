@@ -137,8 +137,8 @@ export class RoomSearchPageComponent implements OnInit {
     this.router.navigate(['/checkout-page'], {
       queryParams: {
         room: JSON.stringify(room),
-        checkinDate: this.filter.checkinDate.toISOString(),
-        checkoutDate: this.filter.checkoutDate.toISOString(),
+        checkinDate: this.filter.checkinDate.toDateString(),
+        checkoutDate: this.filter.checkoutDate.toDateString(),
         services: JSON.stringify(servicesString),
         floor: this.filter.floor
       }

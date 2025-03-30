@@ -23,8 +23,8 @@ export class BookingService {
     return this.http.get<Room[]>(this.url + '/GetAvailableRoomTypes', {
       params: {
         roomType: filter.roomType,
-        checkIn: filter.checkinDate.toISOString().split('T')[0],
-        checkOut: filter.checkinDate.toISOString().split('T')[0],
+        checkIn: filter.checkinDate.toDateString(),
+        checkOut: filter.checkinDate.toDateString(),
         floor: filter.floor.toString()
       },
       withCredentials: true

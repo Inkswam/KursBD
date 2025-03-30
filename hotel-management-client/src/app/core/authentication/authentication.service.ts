@@ -71,6 +71,7 @@ export class AuthenticationService {
   getUsername(){
     let user = sessionStorage.getItem('user');
     if(user === null){
+      this.username.set("");
       console.log('failed to get user from session storage');
     }
     else{

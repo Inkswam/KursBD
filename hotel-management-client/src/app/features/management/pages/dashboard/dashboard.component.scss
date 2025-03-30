@@ -1,0 +1,19 @@
+.dashboard-grid {
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+}
+mat-grid-tile {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+app-overview {
+  height: 100%;
+  width: 100%;
+}
+app-calendar {
+  height: 100%;
+  width: 100%;
+}

@@ -33,7 +33,6 @@ import {User} from '../../../../shared/models/user.model';
     MatInputModule,
     MatButton,
     MatAnchor,
-    RouterLink,
     FormsModule,
     MatGridList,
     MatGridTile,

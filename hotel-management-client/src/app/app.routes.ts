@@ -5,6 +5,10 @@ import {RegisterComponent} from './core/authentication/pages/register/register.c
 import {RoomSearchPageComponent} from './features/booking/pages/room-search-page/room-search-page.component';
 import {CheckoutPageComponent} from './features/booking/pages/checkout-page/checkout-page.component';
 import {authenticationGuard} from './core/authentication/authentication.guard';
+import {
+  ReceptionistMainPageComponent
+} from './features/management/pages/receptionist-main-page/receptionist-main-page.component';
+import {DashboardComponent} from './features/management/pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {
@@ -37,5 +41,25 @@ export const routes: Routes = [
     component: CheckoutPageComponent,
     canActivate: [authenticationGuard],
     title: 'Checkout Page',
+  },
+  {
+    path: 'Receptionist',
+    component: ReceptionistMainPageComponent,
+    canActivate: [authenticationGuard],
+    title: 'Management Home',
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [authenticationGuard],
+        title: 'Dashboard',
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [authenticationGuard],
+        title: 'Dashboard',
+      },
+    ]
   }
 ];

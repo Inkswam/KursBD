@@ -1,0 +1,20 @@
+<mat-grid-list cols="3" rowHeight="1:1" gutterSize="1rem" class="dashboard-grid">
+  <mat-grid-tile colspan="2" rowspan="1" class="overview-tile">
+<!--    <div>-->
+<!--      Overview-->
+<!--    </div>-->
+    <app-overview></app-overview>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1" class="sales-goals-tile">
+    <div>Sales Goals</div>
+    <!--          <app-monthly-sales-goals></app-monthly-sales-goals>-->
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2" rowspan="1" class="calendar-tile">
+<!--    <div>Calendar</div>-->
+    <app-calendar></app-calendar>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="1" rowspan="1" class="new-guest-tile">
+    <div>Guest List</div>
+    <!--          <app-new-guest-today></app-new-guest-today>-->
+  </mat-grid-tile>
+</mat-grid-list>

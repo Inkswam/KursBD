@@ -93,5 +93,18 @@ public class AuthenticationController : ControllerBase
 
             return Ok(verifiedUser);
         });
-    
+
+    [HttpPost]
+    public Task<ActionResult> RegisterReceptionist([FromBody] UserDto user, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var createdUser = await _userService.CreateGuestUserAsync(user, ct);
+
+            var accessToken = _jwtService.GenerateToken(createdUser.Email);
+            var cookieOptions = _jwtService.GetCookieOptions(createdUser.Email);
+            HttpContext.Response.Cookies.Append("auth_token", accessToken, cookieOptions);
+
+            return Ok(createdUser);
+        });
+
 }

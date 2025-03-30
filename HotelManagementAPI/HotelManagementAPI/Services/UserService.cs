@@ -53,6 +53,26 @@ public class UserService
         return user;
     }
 
+    public async Task<UserDto> CreateReceptionistUserAsync(UserDto user, CancellationToken ct)
+    {
+        var userModel = await _context.Users.FindAsync([user.Email], ct);
+        if (userModel != null)
+            throw new Exception("User already exists");
+        
+        user.UserRole = "Receptionist";
+        userModel = _mapper.Map<User>(user);
+        
+        var (hash, salt) = _credentialsService.HashPassword(user.Password!);
+        userModel.PasswordHash = hash;
+        userModel.PasswordSalt = salt;
+        
+        await _context.Users.AddAsync(userModel, ct);
+        await _context.Receptionists.AddAsync(new Receptionist { Email = user.Email}, ct);
+        await _context.SaveChangesAsync(ct);
+        
+        return user;
+    }
+
     public async Task<UserDto> VerifyUserAsync(UserDto user, CancellationToken ct)
     {
         var userModel = await _context.Users.FindAsync([user.Email], cancellationToken: ct);

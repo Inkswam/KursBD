@@ -137,8 +137,8 @@
       <img ngSrc="{{environment.apiBaseUrl + '/' + room.image_url}}" alt="Room Image" class="room-image" width="350" height="350">
       <mat-card-title>{{ room.room_type }}</mat-card-title>
       <mat-card-content class="room-details">
-        <p><strong>Check-in:</strong> {{ this.reservation.checkinDate.toISOString().split('T')[0] }}</p>
-        <p><strong>Check-out:</strong> {{ this.reservation.checkoutDate.toISOString().split('T')[0] }}</p>
+        <p><strong>Check-in:</strong> {{ this.reservation.checkinDate.toDateString() }}</p>
+        <p><strong>Check-out:</strong> {{ this.reservation.checkoutDate.toDateString()}}</p>
         <p><strong>Base Price:</strong> ${{ this.room.price / 100 }}</p>
         <div *ngFor="let service of this.services">
           <p><strong>{{ service.name }}:</strong> ${{ service.price / 100}}</p>

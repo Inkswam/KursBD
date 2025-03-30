@@ -1,0 +1,83 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]="'./dashboard'"
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Dashboard</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Calendar</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Guest</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Rooms</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Bookings</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Tasks</span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Setting</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Help Center</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <app-dashboard></app-dashboard>
+  </mat-sidenav-content>
+</mat-sidenav-container>

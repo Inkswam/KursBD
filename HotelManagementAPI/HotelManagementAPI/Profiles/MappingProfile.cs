@@ -90,9 +90,9 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CheckinDate,
                 opt => opt
                     .MapFrom(r => r.CheckInDate.ToDateTime(new TimeOnly(0, 0, 0, 0))))
-            .ForMember(dest => dest.CheckinDate,
+            .ForMember(dest => dest.CheckoutDate,
                 opt => opt
-                    .MapFrom(r => r.CheckInDate.ToDateTime(new TimeOnly(0, 0, 0, 0))));
+                    .MapFrom(r => r.CheckOutDate.ToDateTime(new TimeOnly(0, 0, 0, 0))));
         
         // PAYMENT SECTION
         CreateMap<PaymentDto, Payment>()

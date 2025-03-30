@@ -1,7 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {MatCard} from '@angular/material/card';
-import {MatChip} from '@angular/material/chips';
-import {NgClass, NgForOf, NgOptimizedImage} from '@angular/common';
+import {NgOptimizedImage} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {Room} from '../../../../shared/models/room.model';
 import {environment} from '../../../../../environments/environment';
@@ -10,10 +9,7 @@ import {environment} from '../../../../../environments/environment';
   selector: 'app-room-card',
   imports: [
     MatCard,
-    MatChip,
-    NgClass,
     MatButton,
-    NgForOf,
     NgOptimizedImage,
   ],
   templateUrl: './room-card.component.html',

@@ -1,7 +1,4 @@
 ﻿using System.Text.Json;
-using HotelManagementAPI.Entities;
-using HotelManagementAPI.Entities.DTOs;
-using HotelManagementAPI.Entities.Models;
 using HotelManagementAPI.Entities.Wrappers;
 using HotelManagementAPI.Services;
 using Microsoft.AspNetCore.Mvc;
