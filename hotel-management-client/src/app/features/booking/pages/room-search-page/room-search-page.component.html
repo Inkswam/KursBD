@@ -16,6 +16,7 @@
             #roomType="ngModel"
             [(ngModel)]="filter.roomType"
           >
+            <mat-option value="Any">Any</mat-option>
             <mat-option *ngFor="let roomType of roomTypeEnum" [value]="roomType[0]">{{roomType[1]}}</mat-option>
           </mat-select>
         </mat-form-field>

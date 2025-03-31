@@ -13,16 +13,18 @@ mat-card:hover {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.name span {
-  font-size: 1.2rem;
+.room-type h3 {
   font-weight: 600;
 }
 
-.personal-data div {
+.reservation-details div {
   margin-bottom: 0.5rem;
 }
 
 mat-expansion-panel {
   margin-top: 1rem;
-  background-color: var(--mat-sys-surface-container-low);
+}
+
+.guest{
+  display: inline-block;
 }

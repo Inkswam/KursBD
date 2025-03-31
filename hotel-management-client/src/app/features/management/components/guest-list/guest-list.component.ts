@@ -59,4 +59,12 @@ export class GuestListComponent implements OnInit {
   goToGuests() {
     this.router.navigate(['/Receptionist/guests']);
   }
+  goToGuest(email: string) {
+    this.router.navigate(['/Receptionist/guest'],
+    {
+      queryParams: {
+        email: email
+      }
+    });
+  }
 }

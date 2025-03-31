@@ -10,6 +10,9 @@ import {
 } from './features/management/pages/receptionist-main-page/receptionist-main-page.component';
 import {DashboardComponent} from './features/management/pages/dashboard/dashboard.component';
 import {GuestsPageComponent} from './features/management/pages/guests-page/guests-page.component';
+import {ReservationsPageComponent} from './features/management/pages/reservations-page/reservations-page.component';
+import {GuestPageComponent} from './features/management/pages/guest-page/guest-page.component';
+import {ReservationPageComponent} from './features/management/pages/reservation-page/reservation-page.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +63,24 @@ export const routes: Routes = [
         component: GuestsPageComponent,
         canActivate: [authenticationGuard],
         title: 'Guests',
+      },
+      {
+        path: 'guest',
+        component: GuestPageComponent,
+        canActivate: [authenticationGuard],
+        title: 'Guest',
+      },
+      {
+        path: 'reservations',
+        component: ReservationsPageComponent,
+        canActivate: [authenticationGuard],
+        title: 'Bookings',
+      },
+      {
+        path: 'reservation',
+        component: ReservationPageComponent,
+        canActivate: [authenticationGuard],
+        title: 'Booking',
       },
     ]
   }

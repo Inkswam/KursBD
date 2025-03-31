@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card (click)="navigateToBooking()">
   <mat-card-title>
     <span>Reserved room: {{reservation.roomType}}</span>
   </mat-card-title>
@@ -8,6 +8,9 @@
     </div>
     <div class="checkout">
       <span>CheckoutDate: {{reservation.checkoutDate.toDateString()}}</span>
+    </div>
+    <div class="status">
+      <span>Status: {{reservation.status}}</span>
     </div>
   </mat-card-content>
 </mat-card>

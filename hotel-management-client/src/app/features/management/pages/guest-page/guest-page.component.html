@@ -1,0 +1,32 @@
+<mat-toolbar class="header mat-elevation-z2">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>{{ guest.firstName }} {{ guest.lastName }}'s Profile</span>
+</mat-toolbar>
+
+<div class="profile-container">
+  <mat-card class="guest-info mat-elevation-z3">
+    <mat-card-title>Guest Information</mat-card-title>
+    <mat-card-content>
+      <div class="info-row"><strong>Email:</strong> {{ guest.email }}</div>
+      <div class="info-row"><strong>Phone:</strong> {{ guest.phoneNumber }}</div>
+      <div class="info-row"><strong>Birth Date:</strong> {{ guest.birthDate.toDateString()}}</div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="reservations-grid">
+    <mat-card
+      class="reservation-card mat-elevation-z2"
+      *ngFor="let reservation of reservations"
+      (click)="navigateToBooking(reservation)"
+    >
+      <mat-card-title>Room {{ reservation.roomNumber }} ({{ reservation.roomType }})</mat-card-title>
+      <mat-card-content>
+        <div><strong>Check-in:</strong> {{ reservation.checkinDate.toDateString()}}</div>
+        <div><strong>Check-out:</strong> {{ reservation.checkoutDate.toDateString()}}</div>
+        <div><strong>Status:</strong> {{ reservation.status }}</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

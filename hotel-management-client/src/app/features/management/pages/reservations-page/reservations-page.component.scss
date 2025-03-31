@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.search-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-field {
+  margin: 0 1rem;
+}
+
+.reservations-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(30vw, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+
+.reservation {
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}

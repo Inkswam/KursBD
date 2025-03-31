@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Resources;
+using System.Text.Json;
+using AutoMapper;
 using HotelManagementAPI.Context;
 using HotelManagementAPI.Entities.DTOs;
 using HotelManagementAPI.Entities.Enums;
@@ -74,17 +76,17 @@ public class ManagementService
         return fullyBookedDates;
     }
 
-    public async Task<UserReservationsWrapper> GetUserReservationsAsync(DateOnly date, CancellationToken ct)
+    public async Task<UserReservationsWrapper> GetUserReservationsByDateAsync(DateOnly date, CancellationToken ct)
     {
         var reservations = await _context.Reservations.Where(r =>
-            r.CheckInDate <= date && r.CheckOutDate >= date &&
+            r.CheckInDate <= date && r.CheckOutDate > date &&
             (r.Status == EReservationStatus.Confirmed || r.Status == EReservationStatus.Reserved)
         ).Include(r => r.Guest).ToListAsync(ct);
        
         return await GetUsersByReservationsAsync(reservations, ct);
     }
 
-    public async Task<UserReservationsWrapper> GetGuestsByCheckinDate(DateOnly date, CancellationToken ct)
+    public async Task<UserReservationsWrapper> GetGuestsByCheckinDateAsync(DateOnly date, CancellationToken ct)
     {
         var reservations = await _context.Reservations.Where(r =>
             r.CheckInDate == date &&
@@ -94,7 +96,7 @@ public class ManagementService
         return await GetUsersByReservationsAsync(reservations, ct);
     }
 
-    public async Task<UserReservationsWrapper> GetAllUsersWithReservations(CancellationToken ct)
+    public async Task<UserReservationsWrapper> GetAllUsersWithReservationsAsync(CancellationToken ct)
     {
         var guests = await _context.Guests
             .Include(g => g.Reservations)
@@ -148,5 +150,63 @@ public class ManagementService
         };
 
         return userReservations;
+    }
+
+    public async Task<UserDto> GetGuestByEmailAsync(string email, CancellationToken ct)
+    {
+        var guest = await _context.Guests.FindAsync([email], ct);
+        if(guest == null)
+            throw new NullReferenceException($"Guest with email {email} was not found");
+        
+        var user = await _context.Users.FindAsync([email], ct);
+        if(user == null)
+            throw new NullReferenceException($"User with email {email} was not found");
+        
+        return _mapper.Map<UserDto>(user);
+    }
+
+    public async Task<IEnumerable<ReservationDto>> GetUserReservationsAsync(string email, CancellationToken ct)
+    {
+        var reservations =
+            await _context.Reservations.Where(r => r.GuestEmail == email).ToListAsync(ct);
+
+        if (reservations.Count == 0)
+            return new List<ReservationDto>();
+        
+        return reservations.Select(r => _mapper.Map<ReservationDto>(r));
+    }
+
+    public async Task<BookingWrapper> GetBookingAsync(string reservationId, CancellationToken ct)
+    {
+        var id = Guid.Parse(reservationId);
+        if(id == Guid.Empty)
+            throw new NullReferenceException("Reservation ID was not found");
+
+        var reservation = await _context.Reservations
+            .Include(r => r.Payment)
+            .SingleAsync(r => r.Id == id, ct);
+        
+        if(reservation == null)
+            throw new NullReferenceException($"Reservation with id {reservationId} was not found");
+        
+        var uniqueRoom = await _context.UniqueRooms.FindAsync([reservation.RoomType], ct);
+        
+        if(uniqueRoom == null)
+            throw new NullReferenceException($"Room type {reservation.RoomType} was not found");
+        
+        var services = JsonSerializer.Deserialize<IEnumerable<ServiceDto>>(reservation.Services);
+        
+        if(services == null)
+            throw new NullReferenceException($"Reservation service list was not found");
+
+        var bookingWrapper = new BookingWrapper
+        {
+            Reservation = _mapper.Map<ReservationDto>(reservation),
+            Payment = _mapper.Map<PaymentDto>(reservation.Payment),
+            Services = services,
+            Room = _mapper.Map<RoomDto>(uniqueRoom)
+        };
+        
+        return bookingWrapper;
     }
 }

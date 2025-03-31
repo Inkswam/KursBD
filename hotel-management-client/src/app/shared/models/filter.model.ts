@@ -7,7 +7,7 @@ export class Filter {
   private _floor: number = 1
 
   constructor() {
-    this._roomType = ERoomType.Any
+    this._roomType = "Any"
     this._checkinDate = new Date();
     this._checkoutDate.setDate(this.checkinDate.getDate() + 1);
     this._floor = 1;

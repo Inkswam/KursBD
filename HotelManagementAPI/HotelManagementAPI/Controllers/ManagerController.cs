@@ -53,7 +53,7 @@ public class ManagerController : ControllerBase
     public Task<ActionResult> GetGuestsByDate([FromQuery] DateOnly date, CancellationToken ct) =>
         ExecuteSafely(async () =>
         {
-            var userReservations = await _managementService.GetUserReservationsAsync(date, ct);
+            var userReservations = await _managementService.GetUserReservationsByDateAsync(date, ct);
             return Ok(userReservations);
         });
 
@@ -61,7 +61,7 @@ public class ManagerController : ControllerBase
     public Task<ActionResult> GetGuestsByCheckinDate([FromQuery] DateOnly date, CancellationToken ct) =>
         ExecuteSafely(async () =>
         {
-            var userReservations = await _managementService.GetGuestsByCheckinDate(date, ct);
+            var userReservations = await _managementService.GetGuestsByCheckinDateAsync(date, ct);
             return Ok(userReservations);
         });
 
@@ -69,7 +69,31 @@ public class ManagerController : ControllerBase
     public Task<ActionResult> GetAllGuestsWithReservations([FromQuery] DateOnly date, CancellationToken ct) =>
         ExecuteSafely(async () =>
         {
-            var userReservations = await _managementService.GetAllUsersWithReservations(ct);
+            var userReservations = await _managementService.GetAllUsersWithReservationsAsync(ct);
             return Ok(userReservations);
+        });
+
+    [HttpGet]
+    public Task<ActionResult> GetGuestByEmail([FromQuery] string email, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var guest = await _managementService.GetGuestByEmailAsync(email, ct);
+            return Ok(guest);
+        });
+
+    [HttpGet]
+    public Task<ActionResult> GetReservationsByGuestEmail([FromQuery] string email, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var userReservations = await _managementService.GetUserReservationsAsync(email, ct);
+            return Ok(userReservations);
+        });
+
+    [HttpGet]
+    public Task<ActionResult> GetBooking([FromQuery] string reservationId, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var bookingWrapper = await _managementService.GetBookingAsync(reservationId, ct);
+            return Ok(bookingWrapper);
         });
 }

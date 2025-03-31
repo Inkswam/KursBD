@@ -1,0 +1,62 @@
+<mat-card class="reservation-container mat-elevation-z4">
+  <mat-card-title>Reservation Details</mat-card-title>
+  <mat-card-content>
+    <div class="content-grid">
+      <!-- Room Info -->
+      <mat-card class="room-info-card mat-elevation-z4">
+        <mat-card-content>
+          <div class="room-info-grid">
+            <img ngSrc="{{environment.apiBaseUrl + '/' + room.image_url}}" alt="Room Photo" width="300" height="300"/>
+            <div class="room-details">
+              <h3>Room Type: {{reservation.roomType}}</h3>
+              <p>Room Number: {{reservation.roomNumber}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Reservation Info -->
+      <mat-card class="reservation-info-card mat-elevation-z4">
+        <mat-card-content>
+          <div class="reservation-details">
+            <p><strong>Check-in Date:</strong> {{reservation.checkinDate.toDateString()}}</p>
+            <p><strong>Check-out Date:</strong> {{reservation.checkoutDate.toDateString()}}</p>
+            <p><strong>Status:</strong> {{reservation.status}}</p>
+            <p><strong>Services:</strong></p>
+            <div class="service-container">
+              <mat-card *ngFor="let service of services">
+                <mat-card-title><strong>Name:</strong> {{service.name}}</mat-card-title>
+                <mat-card-content>
+                  <p><strong>Description:</strong>: {{service.description}}</p>
+                  <p><strong>Price:</strong>{{service.price}}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- User & Payment Info -->
+      <mat-card class="user-payment-card mat-elevation-z4">
+        <mat-card-content>
+          <div class="user-payment-grid">
+            <!-- User Info -->
+            <div class="user-info">
+              <h3>Guest Info</h3>
+              <p>Name: {{user.firstName}} {{user.lastName}}</p>
+              <p>Email: {{user.email}}</p>
+              <p>Phone: {{user.phoneNumber}}</p>
+            </div>
+            <!-- Payment Info -->
+            <div class="payment-info">
+              <h3>Payment Info</h3>
+              <p>Amount Paid: {{payment.amount}}</p>
+              <p>Payment Date: {{payment.date.toDateString()}}</p>
+              <p>Payment Method: {{payment.method}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -124,5 +124,21 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Method,
                 opt => opt
                 .MapFrom(u => u.PaymentMethod.ToString()));
+        
+        CreateMap<RoomDto, UniqueRoom>()
+            .ForMember(dest => dest.RoomType,
+                opt => opt
+                    .MapFrom(ud => Enum.Parse<ERoomType>(ud.room_type)))
+            .ForMember(dest => dest.ImageUrl,
+                opt => opt
+                    .MapFrom(ud => ud.image_url));
+        
+        CreateMap<UniqueRoom, RoomDto>()
+            .ForMember(dest => dest.room_type,
+                opt => opt
+                    .MapFrom(u => u.RoomType.ToString()))
+            .ForMember(dest => dest.image_url,
+                opt => opt
+                    .MapFrom(ud => ud.ImageUrl));
     }
 }

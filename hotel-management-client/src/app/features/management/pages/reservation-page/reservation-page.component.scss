@@ -1,0 +1,65 @@
+@use "@angular/material" as mat;
+
+.reservation-container {
+  padding: 1rem;
+  background-color: var(--mat-sys-surface-bright);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.room-info-card {
+  grid-column: span 2;
+}
+
+.room-info-grid {
+  display: flex;
+  gap: 1rem;
+
+  img {
+    width: 150px;
+    height: 150px;
+    border-radius: var(--mat-sys-corner-medium);
+  }
+
+  .room-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.reservation-info-card {
+  grid-column: span 2;
+}
+
+.user-payment-grid {
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-info, .payment-info {
+  flex: 1;
+  padding: 0 1rem;
+}
+
+.service-container{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  mat-card{
+    padding: 1rem;
+
+    mat-card-title{
+      font-size: 1.25rem;
+    }
+  }
+
+}

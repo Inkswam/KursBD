@@ -1,4 +1,4 @@
-<mat-card class="user-card">
+<mat-card class="user-card" (click)="navigateToGuest()">
   <mat-card-title>
     <div class="name">
       <span>{{user.firstName + " " + user.lastName}}</span>
@@ -16,7 +16,7 @@
         <span>Email: {{user.email}}</span>
       </div>
     </div>
-    <mat-expansion-panel>
+    <mat-expansion-panel (click)="$event.stopPropagation()">
       <mat-expansion-panel-header>
         <mat-panel-title>
           <span>Reservations</span>
@@ -25,9 +25,11 @@
           <span>This guest's bookings</span>
         </mat-panel-description>
       </mat-expansion-panel-header>
+      <span *ngIf="reservations === undefined">This guest has had no reservations yet.</span>
       <app-guest-reservation
         *ngFor="let reservation of reservations"
         [reservation]="reservation"
+        [user]="user"
       >
       </app-guest-reservation>
     </mat-expansion-panel>

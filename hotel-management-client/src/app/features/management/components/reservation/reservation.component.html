@@ -1,0 +1,24 @@
+<mat-card class="user-card" (click)="navigateToBooking()">
+  <mat-card-title>
+    <div class="room-type">
+      <h3>{{reservation.roomType}} room reservation</h3>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="reservation-details">
+      <div class="guest">
+        <span>Guest: </span>
+        <a mat-button (click)="navigateToGuest();$event.stopPropagation()" >{{user?.firstName + " " + user?.lastName}}</a>
+      </div>
+      <div class="checkin">
+        <span>Check-in date: {{reservation.checkinDate.toDateString()}}</span>
+      </div>
+      <div class="checkout">
+        <span>Check-out date: {{reservation.checkoutDate.toDateString()}}</span>
+      </div>
+      <div class="status">
+        <span>Status: {{reservation.status}}</span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

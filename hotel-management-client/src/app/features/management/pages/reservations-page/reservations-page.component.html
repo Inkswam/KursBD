@@ -1,0 +1,68 @@
+<mat-toolbar class="header">
+  <div class="search-container">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Search by guest's name</mat-label>
+      <input
+        matInput
+        placeholder="Peter Diddy"
+        [(ngModel)]="searchName"
+        (input)="applyFilters()"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="selectedStatus" (selectionChange)="applyFilters()">
+        <mat-option value="Any">Any</mat-option>
+        <mat-option *ngFor="let stat of status" [value]="stat[0]">{{ stat[1] }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>RoomType</mat-label>
+      <mat-select [(value)]="selectedRoomType" (selectionChange)="applyFilters()">
+        <mat-option value="Any">Any</mat-option>
+        <mat-option *ngFor="let type of roomType" [value]="type[0]">{{ type[1] }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Check-in</mat-label>
+      <input
+        matInput
+        name="checkinDate"
+        #checkinDate="ngModel"
+        [(ngModel)]="selectedCheckinDate"
+        [matDatepicker]="checkInPicker"
+        (dateChange)="applyFilters()"
+        >
+      <mat-datepicker-toggle matIconSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+      <mat-datepicker #checkInPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Check-out</mat-label>
+      <input
+        matInput
+        name="checkoutDate"
+        #checkoutDate="ngModel"
+        [(ngModel)]="selectedCheckoutDate"
+        [matDatepicker]="checkOutPicker"
+        (dateChange)="applyFilters()"
+      >
+      <mat-datepicker-toggle matIconSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
+      <mat-datepicker #checkOutPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</mat-toolbar>
+
+
+<div class="reservations-list">
+  <app-reservation
+    class="reservation"
+    *ngFor="let reservation of reservations"
+    [user]="users.get(reservation.guestEmail)"
+    [reservation]="reservation"
+  >
+  </app-reservation>
+</div>

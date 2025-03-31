@@ -10,7 +10,7 @@
     <mat-card class="list-card">
       <mat-card-content class="guest-content">
         <mat-selection-list class="guest-list" multiple="false" hideSingleSelectionIndicator>
-          <mat-list-option *ngFor="let reservation of this.reservations">
+          <mat-list-option (click)="goToGuest(reservation.guestEmail)" *ngFor="let reservation of this.reservations">
             <div class="guest">
               <div class="name">
                 <mat-icon class="profile-icon">account_circle</mat-icon>

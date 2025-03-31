@@ -1,4 +1,5 @@
 mat-card {
+  cursor: pointer;
   margin: 0.5rem 0;
   padding: 0.5rem;
   border-left: 4px solid #1976d2;
@@ -11,7 +12,7 @@ mat-card-title {
   color: #1976d2;
 }
 
-.checkin, .checkout {
+.checkin, .checkout, .status {
   margin-top: 0.5rem;
   color: #555;
 }
