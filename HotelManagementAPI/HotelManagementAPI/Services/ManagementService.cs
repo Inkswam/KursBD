@@ -1,4 +1,5 @@
 ﻿using System.Resources;
+using System.Text;
 using System.Text.Json;
 using AutoMapper;
 using HotelManagementAPI.Context;
@@ -104,24 +105,26 @@ public class ManagementService
             .ToListAsync(ct);
         var reservations = guests.SelectMany(g => g.Reservations).ToList();
 
+        var blacklist = await _context.Blacklists.ToListAsync(ct);
         var usersDto = new List<UserDto>();
         foreach (var guest in guests)
         {
             if (guest.User == null)
                 throw new NullReferenceException("Guest has no user");
-
-            usersDto.Add(_mapper.Map<UserDto>(guest.User));
+            
+            if(blacklist.All(b => b.Email != guest.Email))
+                usersDto.Add(_mapper.Map<UserDto>(guest.User));
         }
 
         var reservationsDto = reservations.Select(r => _mapper.Map<ReservationDto>(r)).ToList();
 
-        var UserReservation = new UserReservationsWrapper
+        var userReservation = new UserReservationsWrapper
         {
             Users = usersDto,
             Reservations = reservationsDto
         };
         
-        return UserReservation;
+        return userReservation;
     }
 
     private async Task<UserReservationsWrapper> GetUsersByReservationsAsync(List<Reservation> reservations,
@@ -208,5 +211,82 @@ public class ManagementService
         };
         
         return bookingWrapper;
+    }
+
+
+    public async Task<(byte[], string, string)> GetFinancialReportAsync(IEnumerable<DateOnly> dateRange, CancellationToken ct)
+    {
+        var dates = dateRange.ToList();
+        if (dates.Count != 2)
+            throw new BadHttpRequestException("Number of dates must be 2");
+
+        var reservations = await _context.Reservations
+            .Include(r => r.Payment)
+            .Where(r => r.Payment != null && r.Payment.Date >= dates.First() && r.Payment.Date <= dates.Last()).ToListAsync(ct);
+
+        
+        var csv = new StringBuilder();
+        csv.AppendLine("Id,GuestEmail,RoomNumber,CheckInDate,CheckOutDate,Status,PaymentMethod,PaymentDate,PaymentAmount");
+
+        long totalAmount = 0;
+        foreach (var res in reservations)
+        {
+            csv.AppendLine($"" +
+                           $"{res.Id}," +
+                           $"{res.GuestEmail}," +
+                           $"{res.RoomNumber}," +
+                           $"{res.CheckInDate}," +
+                           $"{res.CheckOutDate}," +
+                           $"{res.Status}," +
+                           $"{res.Payment!.PaymentMethod}," +
+                           $"{res.Payment!.Date}," +
+                           $"{res.Payment!.Amount / 100}");
+            
+            totalAmount+= res.Payment!.Amount;
+        }
+
+        csv.AppendLine();
+        csv.AppendLine($"Date range:,{dates.First()},{dates.Last()}");
+        csv.AppendLine($"Total Amount:,{totalAmount / 100}");
+        
+        
+        var fileName = $"FinancialReport_{dates.First():yyyyMMdd}_{dates.Last():yyyyMMdd}.csv";
+        var fileBytes = Encoding.UTF8.GetBytes(csv.ToString());
+
+        return (fileBytes, "text/csv", fileName);
+    }
+
+    public async Task<IEnumerable<int>> GetFreeRoomsAsync(DateOnly startDate, DateOnly endDate, string roomType, CancellationToken ct)
+    {
+        var type = Enum.Parse<ERoomType>(roomType);
+        
+        var rooms = await _context.Rooms
+            .Include(r => r.Reservations)
+            .Where(r => 
+                (r.Reservations.Count == 0 || 
+                !r.Reservations.Any(res => 
+                    (res.CheckInDate >= startDate && res.CheckInDate < endDate) ||
+                    (res.CheckOutDate > startDate && res.CheckOutDate <= endDate) ||
+                    (res.CheckInDate <= startDate && res.CheckOutDate >= endDate)
+                )) && r.Type == type
+            ).Select(room => room.Number).ToListAsync(ct);
+        
+        return rooms;
+    }
+
+    public async Task<int> SetNewRoomAsync(string reservationId, int roomNumber, CancellationToken ct)
+    {
+        var id = Guid.Parse(reservationId);
+        var reservation = await _context.Reservations.FindAsync([id], ct);
+        
+        if(reservation == null)
+            throw new NullReferenceException($"Reservation with id {id} was not found");
+        
+        reservation.RoomNumber = roomNumber;
+        
+        _context.Update(reservation);
+        await _context.SaveChangesAsync(ct);
+
+        return roomNumber;
     }
 }

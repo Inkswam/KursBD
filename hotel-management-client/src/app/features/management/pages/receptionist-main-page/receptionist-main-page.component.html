@@ -12,29 +12,11 @@
 
       <mat-list-item
         class="sidenav-button"
-        [routerLink]=""
-        routerLinkActive="active-button"
-        [routerLinkActiveOptions]="{exact: true}"
-      >
-        <span>Calendar</span>
-      </mat-list-item>
-
-      <mat-list-item
-        class="sidenav-button"
         [routerLink]="'./guests'"
         routerLinkActive="active-button"
         [routerLinkActiveOptions]="{exact: true}"
       >
         <span>Guests</span>
-      </mat-list-item>
-
-      <mat-list-item
-        class="sidenav-button"
-        [routerLink]=""
-        routerLinkActive="active-button"
-        [routerLinkActiveOptions]="{exact: true}"
-      >
-        <span>Rooms</span>
       </mat-list-item>
 
       <mat-list-item
@@ -48,7 +30,7 @@
 
       <mat-list-item
         class="sidenav-button"
-        [routerLink]=""
+        [routerLink]="'./blacklist'"
         routerLinkActive="active-button"
         [routerLinkActiveOptions]="{exact: true}"
       >

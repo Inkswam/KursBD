@@ -5,7 +5,6 @@ import {environment} from '../../../environments/environment';
 import {User} from '../../shared/models/user.model';
 import {UsersReservations} from '../../shared/wrappers/users-reservations.wrapper';
 import {Reservation} from '../../shared/models/reservation.model';
-import {Room} from '../../shared/models/room.model';
 import {Booking} from '../../shared/wrappers/booking.wrapper';
 
 @Injectable({
@@ -71,5 +70,38 @@ export class ManagementService {
       },
       withCredentials: true
     });
+  }
+
+  getFinancialReport(startDate: Date, endDate: Date){
+    const dateRange = [startDate.toDateString(), endDate.toDateString()];
+    return this.http.get(`${this.url}/GetFinancialReport`, {
+      params: {
+        dateRange: dateRange,
+      },
+      withCredentials: true,
+      responseType: 'blob'
+    });
+  }
+
+  getFreeRooms(startDate: Date, endDate: Date, roomType: string): Observable<number[]> {
+    return this.http.get<number[]>(`${this.url}/GetFreeRooms/${startDate.toDateString()}/${endDate.toDateString()}/${roomType}`,
+      {withCredentials: true});
+  }
+
+  setNewRoom(reservationId: string, roomNumber: number) : Observable<number>{
+    return this.http.put<number>(`${this.url}/SetNewRoom/${reservationId}/${roomNumber}`,{},
+      {withCredentials: true});
+  }
+
+  getBlacklistedUsers() : Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/GetBlacklistedUsers`, {withCredentials: true});
+  }
+
+  removeUserFromBlacklist(email: string) {
+    return this.http.delete(`${this.url}/RemoveFromBlacklist/${email}`, {withCredentials: true});
+  }
+
+  addUserToBlacklist(email: string) : Observable<User> {
+    return this.http.post<User>(`${this.url}/AddUserToBlacklist/${email}`, {}, {withCredentials: true});
   }
 }

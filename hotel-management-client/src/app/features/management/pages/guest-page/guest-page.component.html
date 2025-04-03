@@ -12,6 +12,7 @@
       <div class="info-row"><strong>Email:</strong> {{ guest.email }}</div>
       <div class="info-row"><strong>Phone:</strong> {{ guest.phoneNumber }}</div>
       <div class="info-row"><strong>Birth Date:</strong> {{ guest.birthDate.toDateString()}}</div>
+      <button mat-flat-button (click)="addUserToBlacklist()" class="add-to-blacklist-button">Add user to blacklist</button>
     </mat-card-content>
   </mat-card>
 

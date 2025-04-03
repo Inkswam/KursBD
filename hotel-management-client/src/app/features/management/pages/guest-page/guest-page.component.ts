@@ -1,28 +1,27 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatToolbar} from '@angular/material/toolbar';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
-import {MatList, MatListItem} from '@angular/material/list';
 import {NgForOf} from '@angular/common';
 import {Reservation} from '../../../../shared/models/reservation.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../../../shared/models/user.model';
 import {ManagementService} from '../../management.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-guest-page',
-  imports: [
-    MatToolbar,
-    MatIconButton,
-    MatIcon,
-    MatCard,
-    MatCardTitle,
-    MatCardContent,
-    MatList,
-    MatListItem,
-    NgForOf
-  ],
+    imports: [
+        MatToolbar,
+        MatIconButton,
+        MatIcon,
+        MatCard,
+        MatCardTitle,
+        MatCardContent,
+        NgForOf,
+        MatButton
+    ],
   templateUrl: './guest-page.component.html',
   styleUrl: './guest-page.component.scss'
 })
@@ -30,6 +29,7 @@ export class GuestPageComponent implements OnInit {
   guest: User;
   reservations: Reservation[] = [];
   guestEmail: string;
+  private _snackBar = inject(MatSnackBar);
 
   constructor(
     private managementService: ManagementService,
@@ -89,5 +89,14 @@ export class GuestPageComponent implements OnInit {
         id: reservation.id
       }
     });
+  }
+
+  addUserToBlacklist() {
+    this.managementService.addUserToBlacklist(this.guest.email).subscribe({
+      next: user => {
+        this._snackBar.open(`User ${user.email} added to Blacklist.`, "Ok");
+      },
+      error: err => console.log(err),
+    })
   }
 }

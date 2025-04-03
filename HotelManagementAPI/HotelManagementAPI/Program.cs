@@ -23,6 +23,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<BookingService>();
 builder.Services.AddScoped<StringHelper>();
 builder.Services.AddScoped<ManagementService>();
+builder.Services.AddScoped<AdministratorService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

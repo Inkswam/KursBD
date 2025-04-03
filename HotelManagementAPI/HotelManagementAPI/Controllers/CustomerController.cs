@@ -86,4 +86,13 @@ public class CustomerController : ControllerBase
 
             return Ok();
         });
+
+    [Authorize]
+    [HttpGet("{email}")]
+    public Task<ActionResult> GetReservationsByUser(string email, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var reservations = await _bookingService.GetReservationsByUserAsync(email, ct);
+            return Ok(reservations);
+        });
 }

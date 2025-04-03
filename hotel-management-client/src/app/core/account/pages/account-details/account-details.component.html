@@ -1,0 +1,98 @@
+<div class="registration-container">
+  <mat-card>
+    <mat-card-header>
+      <h1>Account Details</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form #form="ngForm" (submit)="onSubmit(form)" [class.submitted]="service.isFormSubmitted" novalidate
+            autocomplete="off">
+
+        <mat-grid-list cols="2" rowHeight="4em" gutterSize="1.6em">
+
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                name="email"
+                #email="ngModel"
+                [(ngModel)]="service.formUser.email"
+                type="email"
+
+                required
+              />
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>PhoneNumber</mat-label>
+              <input
+                matInput
+                name="phoneNumber"
+                #phoneNumber="ngModel"
+                [(ngModel)]="service.formUser.phoneNumber"
+                type="phone"
+                required>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>FirstName</mat-label>
+              <input
+                matInput
+                name="firstName"
+                #firstName="ngModel"
+                [(ngModel)]="service.formUser.firstName"
+                type="text"
+                required/>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile>
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>LastName</mat-label>
+              <input
+                matInput
+                name="lastName"
+                #lastName="ngModel"
+                [(ngModel)]="service.formUser.lastName"
+                type="text"
+                required/>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile colspan="2">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Birth Date</mat-label>
+              <input
+                matInput
+                [max]="_currentDate"
+                [matDatepicker]="picker"
+                name="birthDate"
+                #birthDate="ngModel"
+                [(ngModel)]="service.formUser.birthDate"
+                required>
+              <mat-hint>mm/dd/yyyy</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile colspan="2">
+            <button mat-raised-button type="submit" class="submit-button">
+              <span>Update</span>
+            </button>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="2">
+            <button mat-flat-button type="button" class="logout-button" (click)="logOut()">
+              <span>Log out</span>
+            </button>
+          </mat-grid-tile>
+
+        </mat-grid-list>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

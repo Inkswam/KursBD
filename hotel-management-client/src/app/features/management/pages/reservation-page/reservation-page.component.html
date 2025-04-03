@@ -9,7 +9,17 @@
             <img ngSrc="{{environment.apiBaseUrl + '/' + room.image_url}}" alt="Room Photo" width="300" height="300"/>
             <div class="room-details">
               <h3>Room Type: {{reservation.roomType}}</h3>
-              <p>Room Number: {{reservation.roomNumber}}</p>
+              <mat-form-field>
+                <mat-label>Available Rooms</mat-label>
+                <mat-select
+                  name="roomSelect"
+                  #roomSelect="ngModel"
+                  [(ngModel)]="desiredRoomNumber"
+                >
+                  <mat-option *ngFor="let n of availableRooms" [value]="n">{{n}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <button mat-flat-button (click)="setNewRoom()">Save Changes</button>
             </div>
           </div>
         </mat-card-content>
@@ -50,7 +60,7 @@
             <!-- Payment Info -->
             <div class="payment-info">
               <h3>Payment Info</h3>
-              <p>Amount Paid: {{payment.amount}}</p>
+              <p>Amount Paid: {{payment.amount / 100}}</p>
               <p>Payment Date: {{payment.date.toDateString()}}</p>
               <p>Payment Method: {{payment.method}}</p>
             </div>

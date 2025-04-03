@@ -57,3 +57,8 @@ mat-icon{
 mat-card-title{
   margin-bottom: 0.5rem;
 }
+
+.add-to-blacklist-button{
+  background-color: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+}

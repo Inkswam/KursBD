@@ -7,6 +7,7 @@ import {Room} from '../../shared/models/room.model';
 import {Service} from '../../shared/models/service.model';
 import {Reservation} from '../../shared/models/reservation.model';
 import {Payment} from '../../shared/models/payment.model';
+import {Booking} from '../../shared/wrappers/booking.wrapper';
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +57,9 @@ export class BookingService {
 
   bookRoom(reservation: Reservation, payment: Payment, services: Service[], roomFloor: number) {
     return this.http.post(this.url + '/PlaceReservation', {reservation, payment, roomFloor, services}, {withCredentials: true});
+  }
+
+  getReservationsByUser(email: string) : Observable<Booking[]> {
+    return this.http.get<Booking[]>(`${this.url}/GetReservationsByUser/${email}`, {withCredentials: true});
   }
 }

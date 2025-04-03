@@ -4,7 +4,7 @@
   </button>
   <span class="spacer"></span>
   <div class="profile" *ngIf="authenticationService.username(); else showLogin">
-    <button  mat-fab extended class="account-button" disableRipple>
+    <button  mat-fab extended class="account-button" disableRipple (click)="navigateToAccount()">
       <span>{{ authenticationService.username() }}</span>
       <mat-icon class="button-icon">account_circle</mat-icon>
     </button>

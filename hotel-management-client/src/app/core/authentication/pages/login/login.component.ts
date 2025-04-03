@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
@@ -12,6 +12,7 @@ import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {AuthenticationService} from '../../authentication.service';
 import {User} from '../../../../shared/models/user.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ import {User} from '../../../../shared/models/user.model';
 })
 export class LoginComponent {
   hidePassword = signal(true);
+  private _snackBar = inject(MatSnackBar);
   constructor(
     public service: AuthenticationService,
     private router: Router,
@@ -58,6 +60,7 @@ export class LoginComponent {
           this.router.navigateByUrl(returnUrl);
         },
         error: (err) => {
+          this._snackBar.open(err.message(), 'Understood');
           console.log(err);
         },
       });

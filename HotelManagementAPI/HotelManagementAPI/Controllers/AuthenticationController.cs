@@ -26,6 +26,11 @@ public class AuthenticationController : ControllerBase
             return StatusCode(StatusCodes.Status404NotFound, 
                 JsonSerializer.Serialize(new { message = e.Message }));
         }
+        catch (AccessViolationException e)
+        {
+            return StatusCode(StatusCodes.Status403Forbidden, 
+                JsonSerializer.Serialize(new { message = e.Message }));
+        }
         catch (Exception e)
         {
             return StatusCode(StatusCodes.Status409Conflict, 
@@ -81,6 +86,14 @@ public class AuthenticationController : ControllerBase
             return Ok(createdUser);
         });
 
+    [HttpPut]
+    public Task<ActionResult> UpdateUser([FromBody] UserDto user, CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            var updatedUser = await _userService.UpdateUserAsync(user, ct);
+            return Ok(updatedUser);
+        });
+
     [HttpPost]
     public Task<ActionResult> Login(UserDto user, CancellationToken ct) =>
         ExecuteSafely(async () =>
@@ -92,6 +105,14 @@ public class AuthenticationController : ControllerBase
             HttpContext.Response.Cookies.Append("auth_token", accessToken, cookieOptions);
 
             return Ok(verifiedUser);
+        });
+
+    [HttpDelete]
+    public Task<ActionResult> Logout(CancellationToken ct) =>
+        ExecuteSafely( () =>
+        {
+            HttpContext.Response.Cookies.Delete("auth_token");
+            return Task.FromResult<ActionResult>(Ok());
         });
 
     [HttpPost]

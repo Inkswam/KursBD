@@ -1,0 +1,38 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]="'./users'"
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Users</span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Setting</span>
+      </mat-list-item>
+
+      <mat-list-item
+        class="sidenav-button"
+        [routerLink]=""
+        routerLinkActive="active-button"
+        [routerLinkActiveOptions]="{exact: true}"
+      >
+        <span>Help Center</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="main-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

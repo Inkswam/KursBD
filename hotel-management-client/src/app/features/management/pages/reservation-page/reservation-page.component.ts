@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MatCard, MatCardContent, MatCardTitle} from '@angular/material/card';
 import {BookingService} from '../../../booking/booking.service';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -6,11 +6,15 @@ import {Reservation} from '../../../../shared/models/reservation.model';
 import {User} from '../../../../shared/models/user.model';
 import {Payment} from '../../../../shared/models/payment.model';
 import {Room} from '../../../../shared/models/room.model';
-import {ERoomType} from '../../../../shared/enums/eroom-type.enum';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ManagementService} from '../../management.service';
 import {Service} from '../../../../shared/models/service.model';
 import {NgForOf, NgOptimizedImage} from '@angular/common';
 import {environment} from '../../../../../environments/environment';
+import {MatFormField, MatLabel} from '@angular/material/form-field';
+import {MatOption, MatSelect} from '@angular/material/select';
+import {FormsModule} from '@angular/forms';
+import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-reservation-page',
@@ -19,7 +23,13 @@ import {environment} from '../../../../../environments/environment';
     MatCardTitle,
     MatCardContent,
     NgOptimizedImage,
-    NgForOf
+    NgForOf,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    FormsModule,
+    MatButton,
   ],
   templateUrl: './reservation-page.component.html',
   styleUrl: './reservation-page.component.scss'
@@ -30,6 +40,10 @@ export class ReservationPageComponent implements OnInit {
   payment: Payment;
   room: Room;
   services: Service[];
+  availableRooms: number[];
+  desiredRoomNumber: number;
+
+  private _snackBar = inject(MatSnackBar);
 
   constructor(public managementService: ManagementService, private router: Router, private route: ActivatedRoute,) {
     this.reservation = new Reservation();
@@ -37,6 +51,8 @@ export class ReservationPageComponent implements OnInit {
     this.payment = new Payment();
     this.room = new Room('', 0, 0, '');
     this.services = [];
+    this.availableRooms = [];
+    this.desiredRoomNumber = this.reservation.roomNumber;
   }
 
   ngOnInit() {
@@ -53,6 +69,7 @@ export class ReservationPageComponent implements OnInit {
       })
       this.getBookings(reservationId)
     }
+
   }
 
   getBookings(reservationId: string) {
@@ -67,13 +84,41 @@ export class ReservationPageComponent implements OnInit {
         result.reservation.checkoutDate = new Date(result.reservation.checkoutDate);
 
         this.reservation = result.reservation;
+        this.availableRooms.push(this.reservation.roomNumber);
+        this.desiredRoomNumber = this.reservation.roomNumber;
 
         this.services = result.services;
 
+        this.getFreeRooms();
       },
       error: error => console.log(error)
     })
   }
 
+  getFreeRooms(){
+    this.managementService.getFreeRooms(
+      this.reservation.checkinDate,
+      this.reservation.checkoutDate,
+      this.reservation.roomType)
+      .subscribe({
+        next: roomNumbers => {
+          for(let number of roomNumbers){
+            this.availableRooms.push(number);
+          }
+        },
+        error: err => console.error(err)
+      })
+  }
+
   protected readonly environment = environment;
+
+  setNewRoom() {
+    this.managementService.setNewRoom(this.reservation.id, this.desiredRoomNumber).subscribe({
+      next: result => {
+        this.reservation.roomNumber = result;
+        this._snackBar.open(`Room has been changed to ${result}`, "Ok");
+      },
+      error: err => console.error(err)
+    })
+  }
 }

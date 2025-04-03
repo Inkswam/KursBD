@@ -1,0 +1,52 @@
+<mat-card class="reservation-container mat-elevation-z4">
+  <mat-card-title>Reservation Details</mat-card-title>
+  <mat-card-content>
+    <div class="content-grid">
+      <!-- Room Info -->
+      <mat-card class="room-info-card mat-elevation-z4">
+        <mat-card-content>
+          <div class="room-info-grid">
+            <img ngSrc="{{environment.apiBaseUrl + '/' + booking.room.image_url}}" alt="Room Photo" width="300" height="300"/>
+            <div class="room-details">
+              <h3>Room Type: {{booking.reservation.roomType}}</h3>
+              <h3>Room Number: {{booking.reservation.roomNumber}}</h3>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Reservation Info -->
+      <mat-card class="reservation-info-card mat-elevation-z4">
+        <mat-card-content>
+          <div class="reservation-details">
+            <p><strong>Check-in Date:</strong> {{booking.reservation.checkinDate.toDateString()}}</p>
+            <p><strong>Check-out Date:</strong> {{booking.reservation.checkoutDate.toDateString()}}</p>
+            <p><strong>Status:</strong> {{booking.reservation.status}}</p>
+            <p><strong>Services:</strong></p>
+            <div class="service-container">
+              <mat-card *ngFor="let service of booking.services">
+                <mat-card-title><strong>Name:</strong> {{service.name}}</mat-card-title>
+                <mat-card-content>
+                  <p><strong>Description:</strong>: {{service.description}}</p>
+                  <p><strong>Price:</strong>{{service.price}}</p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- User & Payment Info -->
+      <mat-card class="user-payment-card mat-elevation-z4">
+        <mat-card-content>
+            <div class="payment-info">
+              <h3>Payment Info</h3>
+              <p>Amount Paid: {{booking.payment.amount / 100}}</p>
+              <p>Payment Date: {{booking.payment.date.toDateString()}}</p>
+              <p>Payment Method: {{booking.payment.method}}</p>
+            </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>

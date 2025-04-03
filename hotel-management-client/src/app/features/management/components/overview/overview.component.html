@@ -28,23 +28,26 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="chart-card">
+    <mat-card class="chart-card" (click)="downloadReport()">
       <mat-card-title>
         <div class="header">
-          <div class="stats">
-            <div class="guests-number">
-              <h3>USD 302,193</h3>
-            </div>
-            <div class="guests-percent">
-              <span>⬆ 0.03%</span>
-            </div>
+          <div class="chart-card-header-name">
+            <h5>Financial Report</h5>
           </div>
+          <mat-form-field appearance="outline" class="period-selector-field">
+            <mat-label>Date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker" [formGroup]="campaignOne">
+              <input matStartDate formControlName="start">
+              <input matEndDate formControlName="end">
+            </mat-date-range-input>
+            <mat-hint>mm/dd/yyyy - mm/dd/yyyy</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
         </div>
-        <span class="title-description">Total last 5 days of gross revenue</span>
       </mat-card-title>
       <mat-card-content>
-        <div class="chart-revenue-placeholder">
-        </div>
+        <div class="chart-revenue-placeholder"></div>
       </mat-card-content>
     </mat-card>
   </mat-card-content>

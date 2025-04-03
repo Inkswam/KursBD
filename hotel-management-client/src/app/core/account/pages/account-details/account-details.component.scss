@@ -1,0 +1,44 @@
+mat-toolbar {
+  position: fixed;
+  height: 7vh;
+  z-index: 100;
+}
+mat-card-header h1 {
+  margin-top: 0
+}
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+mat-card {
+  width: 36rem;
+  padding: 20px;
+}
+
+.submit-button {
+  width: 80%;
+  border-radius: 9999px;
+}
+
+.logout-button {
+  width: 80%;
+  border-radius: 9999px;
+  background-color: var(--mat-sys-error);
+
+  span{
+    color: var(--mat-sys-on-error);
+  }
+}
+
+mat-form-field {
+  width: 100%;
+
+}
+
+mat-grid-tile{
+  padding: 10px 0 10px 0;
+  width: 100%;
+}

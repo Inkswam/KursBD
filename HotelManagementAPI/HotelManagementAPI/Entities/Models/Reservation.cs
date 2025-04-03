@@ -5,7 +5,7 @@ using HotelManagementAPI.Entities.Enums;
 
 namespace HotelManagementAPI.Entities.Models;
 
-[Table("reservation", Schema = "public")]
+[Table("reservations", Schema = "public")]
 public class Reservation
 {
     [Key]

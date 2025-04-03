@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.search-container{
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
+
+.form-field {
+  margin: 0 1rem;
+}
+
+.blacklisted-users-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(1fr, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}

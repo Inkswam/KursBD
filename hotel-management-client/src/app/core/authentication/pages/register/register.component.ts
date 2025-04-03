@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCard, MatCardContent, MatCardHeader } from '@angular/material/card';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAnchor, MatButton, MatIconButton } from '@angular/material/button';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { MatGridList, MatGridTile } from '@angular/material/grid-list';
 import {
@@ -20,6 +20,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatIcon } from '@angular/material/icon';
 import {AuthenticationService} from '../../authentication.service';
 import {User} from '../../../../shared/models/user.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -51,6 +52,7 @@ export class RegisterComponent {
   readonly _currentDate = new Date();
   hidePassword = signal(true);
   confirmPassword = '';
+  private _snackBar = inject(MatSnackBar);
 
   constructor(
     public service: AuthenticationService,
@@ -97,6 +99,7 @@ export class RegisterComponent {
           this.router.navigateByUrl(returnUrl);
         },
         error: (error) => {
+          this._snackBar.open(error.message, 'Understood');
           console.log(error);
         },
       });

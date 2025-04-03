@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-title>
+    <h3>{{user.firstName + " " + user.lastName}}</h3>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="personal-data">
+      <span>Email: {{user.email}}</span>
+      <span>Phone: {{user.phoneNumber}}</span>
+    </div>
+    <button mat-icon-button (click)="removeUserFromBlacklist()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-content>
+</mat-card>

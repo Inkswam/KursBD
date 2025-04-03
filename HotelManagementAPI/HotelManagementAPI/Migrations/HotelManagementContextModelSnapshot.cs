@@ -164,7 +164,7 @@ namespace HotelManagementAPI.Migrations
 
                     b.HasIndex("RoomNumber");
 
-                    b.ToTable("reservation", "public");
+                    b.ToTable("reservations", "public");
                 });
 
             modelBuilder.Entity("HotelManagementAPI.Entities.Models.Room", b =>

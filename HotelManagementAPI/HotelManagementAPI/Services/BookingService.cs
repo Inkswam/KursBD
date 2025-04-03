@@ -5,6 +5,7 @@ using HotelManagementAPI.Context;
 using HotelManagementAPI.Entities.DTOs;
 using HotelManagementAPI.Entities.Enums;
 using HotelManagementAPI.Entities.Models;
+using HotelManagementAPI.Entities.Wrappers;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
@@ -119,5 +120,39 @@ public class BookingService
             .SqlQuery<int>($"SELECT get_free_room({floorParam}, {typeParam}, {checkinDateParam}, {checkoutDateParam})").ToListAsync(ct);
 
         return result.First();
+    }
+
+    public async Task<IEnumerable<BookingWrapper>> GetReservationsByUserAsync(string email, CancellationToken ct)
+    {
+        var reservations = await _context.Reservations
+            .Include(r => r.Payment)
+            .Where(r => r.GuestEmail == email)
+            .ToListAsync(ct);
+
+        var bookingWrappersSerialized = new List<BookingWrapper>();
+        foreach (var reservation in reservations)
+        {
+            var uniqueRoom = await _context.UniqueRooms.FindAsync([reservation.RoomType], ct);
+
+            if (uniqueRoom == null)
+                throw new NullReferenceException($"Room type {reservation.RoomType} was not found");
+
+            var services = JsonSerializer.Deserialize<IEnumerable<ServiceDto>>(reservation.Services);
+
+            if (services == null)
+                throw new NullReferenceException($"Reservation service list was not found");
+            
+            var bookingWrapper = new BookingWrapper
+            {
+                Reservation = _mapper.Map<ReservationDto>(reservation),
+                Payment = _mapper.Map<PaymentDto>(reservation.Payment),
+                Services = services,
+                Room = _mapper.Map<RoomDto>(uniqueRoom)
+            };
+            
+            bookingWrappersSerialized.Add(bookingWrapper);
+        }
+        
+        return bookingWrappersSerialized;
     }
 }

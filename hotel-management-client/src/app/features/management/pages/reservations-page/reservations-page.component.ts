@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {GuestComponent} from "../../components/guest/guest.component";
 import {MatInput, MatLabel, MatSuffix} from "@angular/material/input";
 import {MatToolbar} from "@angular/material/toolbar";
 import {NgForOf} from "@angular/common";
@@ -18,7 +17,6 @@ import {ReservationComponent} from '../../components/reservation/reservation.com
   selector: 'app-reservations-page',
   imports: [
     FormsModule,
-    GuestComponent,
     MatFormField,
     MatInput,
     MatLabel,
