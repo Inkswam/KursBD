@@ -28,7 +28,7 @@ public class MappingProfile : Profile
                 opt => opt.Ignore())
             .ForMember(dest => dest.BirthDate, 
                 opt => opt
-                    .MapFrom(ud => DateOnly.FromDateTime(ud.BirthDate)));
+                    .MapFrom(ud => DateOnly.FromDateTime(ud.BirthDate).AddDays(1)));
 
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.Password,
@@ -69,10 +69,10 @@ public class MappingProfile : Profile
                 opt => opt.Ignore())
             .ForMember(dest => dest.CheckInDate,
                 opt => opt
-                    .MapFrom(rd => DateOnly.FromDateTime(rd.CheckinDate)))
+                    .MapFrom(rd => DateOnly.FromDateTime(rd.CheckinDate).AddDays(1)))
             .ForMember(dest => dest.CheckOutDate,
                 opt => opt
-                    .MapFrom(rd => DateOnly.FromDateTime(rd.CheckoutDate)))
+                    .MapFrom(rd => DateOnly.FromDateTime(rd.CheckoutDate).AddDays(1)))
             .ForMember(dest => dest.Status,
                 opt => opt
                     .MapFrom(rd => Enum.Parse<EReservationStatus>(rd.Status)));
@@ -106,7 +106,7 @@ public class MappingProfile : Profile
                     .MapFrom(pd => Guid.Parse(pd.ReservationId)))
             .ForMember(dest => dest.Date,
                 opt => opt
-                    .MapFrom(pd => DateOnly.FromDateTime(pd.Date)))
+                    .MapFrom(pd => DateOnly.FromDateTime(pd.Date).AddDays(1)))
             .ForMember(dest => dest.PaymentMethod,
                 opt => opt
                     .MapFrom(pd => Enum.Parse<EPaymentMethod>(pd.Method)));

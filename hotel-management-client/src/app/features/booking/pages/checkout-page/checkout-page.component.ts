@@ -19,6 +19,7 @@ import {Payment} from '../../../../shared/models/payment.model';
 import {EPaymentMethod} from '../../../../shared/enums/epayment-method.enum';
 import * as uuid from 'uuid';
 import {BookingService} from '../../booking.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-checkout-page',
@@ -54,6 +55,7 @@ export class CheckoutPageComponent implements OnInit {
   public user: User;
   public payment: Payment;
   protected readonly EPaymentMethod = EPaymentMethod;
+  private _snackBar = inject(MatSnackBar);
 
   constructor(private bookingService: BookingService) {
     this.floor = 0;
@@ -77,7 +79,11 @@ export class CheckoutPageComponent implements OnInit {
     })
     this.reservation.roomType = this.room.room_type;
 
-    this.total = this.room.price;
+    let runningDate = new Date(this.reservation.checkinDate);
+    while (runningDate < this.reservation.checkoutDate) {
+      this.total += this.room.price;
+      runningDate.setDate(runningDate.getDate() + 1);
+    }
 
     for(let service of this.services){
       this.total += service.price;
@@ -91,7 +97,15 @@ export class CheckoutPageComponent implements OnInit {
 
   protected readonly environment = environment;
 
-  bookNow(personalDataForm: HTMLFormElement){
+  bookNow(personalDataForm: HTMLFormElement, cardDataForm: HTMLFormElement) {
+    if(!personalDataForm.checkValidity()){
+      this._snackBar.open("Please, fill forms properly", "Ok");
+      return;
+    }
+    if(!cardDataForm.checkValidity() && this.payment.method === EPaymentMethod.CreditCard) {
+      this._snackBar.open("Please, fill forms properly", "Ok");
+      return;
+    }
     this.reservation.id = uuid.v4();
     this.reservation.guestEmail = this.user.email;
     this.reservation.status = EReservationStatus.Reserved;
@@ -103,9 +117,12 @@ export class CheckoutPageComponent implements OnInit {
 
     this.bookingService.bookRoom(this.reservation, this.payment, this.services, this.floor).subscribe({
       next: (result) => {
+        this._snackBar.open("You made reservation successfully.", "Ok");
+        this.router.navigate(['/Guest']);
         console.log(result);
       },
       error: (err) => {
+        this._snackBar.open(err.message, "Ok");
         console.log(err);
       }
     })

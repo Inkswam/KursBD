@@ -6,14 +6,14 @@
         <div class="header">
           <div class="stats">
             <div class="guests-number">
-              <h3>103</h3>
+              <h3>{{guestChartData.valueSum.toFixed(0)}}</h3>
             </div>
-            <div class="guests-percent">
-              <span>⬆ 23.33%</span>
+            <div class="guests-percent" [ngClass]="guestChartData.percentage < 0 ? 'negative' : 'positive'">
+              <span>{{guestChartData.percentage.toFixed(2)}}%</span>
             </div>
           </div>
           <mat-form-field appearance="outline" class="period-selector-field">
-            <mat-select [value]="'Week'">
+            <mat-select #guestSelect [value]="'Week'" (selectionChange)="updateGuestChart(guestSelect.value)">
               <mat-option value="Week">Week</mat-option>
               <mat-option value="Month">Month</mat-option>
               <mat-option value="Year">Year</mat-option>
@@ -23,7 +23,10 @@
         <span class="title-description">Number of guest staying overnight</span>
       </mat-card-title>
       <mat-card-content>
-        <div class="chart-guest-placeholder">
+        <div>
+          <canvas #guestsCanvas>
+
+          </canvas>
         </div>
       </mat-card-content>
     </mat-card>
@@ -31,23 +34,32 @@
     <mat-card class="chart-card" (click)="downloadReport()">
       <mat-card-title>
         <div class="header">
-          <div class="chart-card-header-name">
-            <h5>Financial Report</h5>
+          <div class="stats">
+            <div class="guests-number">
+              <h3>${{earningsChartData.valueSum.toFixed(0)}}</h3>
+            </div>
+            <div class="guests-percent" [ngClass]="earningsChartData.percentage < 0 ? 'negative' : 'positive'">
+              <span>{{earningsChartData.percentage.toFixed(2)}}%</span>
+            </div>
           </div>
           <mat-form-field appearance="outline" class="period-selector-field">
             <mat-label>Date range</mat-label>
             <mat-date-range-input [rangePicker]="picker" [formGroup]="campaignOne">
               <input matStartDate formControlName="start">
-              <input matEndDate formControlName="end">
+              <input matEndDate formControlName="end" (dateChange)="updateEarningsChart()">
             </mat-date-range-input>
-            <mat-hint>mm/dd/yyyy - mm/dd/yyyy</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
         </div>
+        <span class="title-description">Financial Report</span>
       </mat-card-title>
       <mat-card-content>
-        <div class="chart-revenue-placeholder"></div>
+        <div>
+          <canvas #earningsCanvas>
+
+          </canvas>
+        </div>
       </mat-card-content>
     </mat-card>
   </mat-card-content>

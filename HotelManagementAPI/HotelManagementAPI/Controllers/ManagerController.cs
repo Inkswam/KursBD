@@ -148,6 +148,17 @@ public class ManagerController : ControllerBase
             var userFromBlacklist = await _userService.AddUserToBlacklistAsync(email, ct);
             return Ok(userFromBlacklist);
         });
-    
-    
+
+    [HttpGet]
+    public async Task<ActionResult> GetGuestChart([FromQuery] string period, CancellationToken ct)
+    {
+        var guestChart = _managementService.GetGuestChart(period, ct);
+        return Ok(guestChart);
+    }
+    [HttpGet("{start}/{end}")]
+    public async Task<ActionResult> GetEarningsChart(DateOnly start, DateOnly end, CancellationToken ct)
+    {
+        var guestChart = await _managementService.GetEarningsChart(start, end, ct);
+        return Ok(guestChart);
+    }
 }

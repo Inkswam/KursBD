@@ -1,4 +1,5 @@
 ﻿using System.Resources;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Text.Json;
 using AutoMapper;
@@ -288,5 +289,119 @@ public class ManagementService
         await _context.SaveChangesAsync(ct);
 
         return roomNumber;
+    }
+
+    public ChartStatistic GetGuestChart(string period, CancellationToken ct)
+    {
+        
+        var currentDate = DateOnly.FromDateTime(DateTime.Today);
+        var startDate = currentDate;
+
+        if (period == "Week")
+        {
+            startDate = currentDate.AddDays(-7);
+        }
+        else if (period == "Month")
+        {
+            startDate = currentDate.AddMonths(-1);
+        }
+        else if (period == "Year")
+        {
+            startDate = currentDate.AddYears(-1);
+        }
+
+        var chart = GetGuestsPerDate(startDate, currentDate);
+        
+        var comparisonDate = startDate.AddDays(startDate.DayNumber - currentDate.DayNumber);
+        var oldStatistic = GetGuestsPerDate(comparisonDate, startDate);
+
+        double newSum = 0;
+        foreach (var c in chart)
+        {
+            newSum += c.Value;
+        }
+
+        double oldSum = 0;
+        foreach (var os in oldStatistic)
+        {
+            oldSum += os.Value;
+        }
+        
+        var percentage = oldSum == 0 ? 100 : newSum * 100.0 / oldSum - 100.0;
+        
+        var chartStatistic = new ChartStatistic
+        {
+            ChartsData = chart,
+            ValueSum = newSum,
+            Percentage = percentage
+        };
+        
+        return chartStatistic;
+    }
+
+    private List<ChartData> GetGuestsPerDate(DateOnly startDate, DateOnly endDate)
+    {
+        
+        var guestCountPerDate = _context.Reservations
+            .AsEnumerable() // Switch to client-side for date iteration logic
+            .SelectMany(res => Enumerable
+                .Range(0, (res.CheckOutDate.DayNumber - res.CheckInDate.DayNumber))
+                .Select(offset => new
+                {
+                    Date = res.CheckInDate.AddDays(offset),
+                    GuestEmail = res.GuestEmail
+                }))
+            .Where(x => x.Date > startDate && x.Date <= endDate)
+            .GroupBy(x => x.Date)
+            .Select(g => new
+            {
+                Date = g.Key,
+                GuestCount = g.Select(x => x.GuestEmail).Distinct().Count()
+            })
+            .OrderBy(x => x.Date)
+            .ToList();
+        
+        return guestCountPerDate
+            .Select(g => new ChartData { 
+                Type = g.Date.ToString("MM/dd/yyyy"), 
+                Value = g.GuestCount })
+            .ToList();
+        
+    }
+    
+    public async Task<ChartStatistic> GetEarningsChart(DateOnly start, DateOnly end, CancellationToken ct)
+    {
+        var paymentsByDate = await GetPaymentsByDate(start, end, ct);
+
+        var comparisonDate = start.AddDays(start.DayNumber - end.DayNumber);
+        var oldStatistic = await GetPaymentsByDate(comparisonDate, start, ct);
+        
+        var newSum = (double)paymentsByDate.Sum(x => x.Value);
+        var oldSum = (double)oldStatistic.Sum(x => x.Value);
+        
+        var percentage = oldSum == 0 ? 100 : newSum * 100.0 / oldSum - 100.0;
+        
+        var chartStatistic = new ChartStatistic
+        {
+            ChartsData = paymentsByDate,
+            ValueSum = newSum,
+            Percentage = percentage
+        };
+        
+        return chartStatistic;
+    }
+
+    public async Task<List<ChartData>> GetPaymentsByDate(DateOnly start, DateOnly end, CancellationToken ct)
+    {
+        return await _context.Payments
+            .Where(p => p.Date >= start && p.Date <= end)
+            .GroupBy(p => p.Date)
+            .OrderBy(g => g.Key) 
+            .Select(g => new ChartData
+            {
+                Type = g.Key.ToString("yyyy-MM-dd"), // or any format you prefer
+                Value = (int)g.Sum(p => p.Amount / 100)
+            })
+            .ToListAsync(ct);
     }
 }

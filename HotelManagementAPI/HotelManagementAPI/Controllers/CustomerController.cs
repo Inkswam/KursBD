@@ -82,7 +82,11 @@ public class CustomerController : ControllerBase
                 reservationPayment.Services,
                 reservationPayment.RoomFloor,
                 ct);
-            await _bookingService.SavePayment(reservationPayment.Payment, ct);
+            await _bookingService.SavePayment(
+                reservationPayment.Payment,
+                reservationPayment.Reservation,
+                reservationPayment.Services,
+                ct);
 
             return Ok();
         });

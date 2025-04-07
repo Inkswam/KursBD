@@ -34,7 +34,7 @@ namespace HotelManagementAPI.Migrations
                         AND r.floor = selected_floor
                         AND NOT EXISTS (
                             SELECT 1 
-                            FROM reservation res
+                            FROM reservations res
                             WHERE res.room_number = r.number
                             AND (res.check_in_date, res.check_out_date) OVERLAPS (start_date, end_date)
                         )

@@ -98,9 +98,20 @@ public class BookingService
         return reservation;
     }
 
-    public async Task<PaymentDto> SavePayment(PaymentDto payment, CancellationToken ct)
+    public async Task<PaymentDto> SavePayment(
+        PaymentDto payment, 
+        ReservationDto reservation,
+        IEnumerable<ServiceDto>? services,
+        CancellationToken ct)
     {
+        
+        var room = await _context.UniqueRooms.FindAsync([Enum.Parse<ERoomType>(reservation.RoomType)], ct);
+        if(room == null)
+            throw new NullReferenceException("Room doesn't exist");
+        
         var paymentModel = _mapper.Map<Payment>(payment);
+        paymentModel.Amount = room.Price * (long)(reservation.CheckoutDate - reservation.CheckinDate).TotalDays + (services?.Sum(s => s.Price) ?? 0);
+        
         await _context.Payments.AddAsync(paymentModel, ct);
         await _context.SaveChangesAsync(ct);
         

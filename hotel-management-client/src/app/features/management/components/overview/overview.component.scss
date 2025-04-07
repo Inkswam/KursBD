@@ -47,9 +47,16 @@
     .guests-percent{
       span{
         font-size: var(--mat-sys-label-small-line-height);
-        color: green;
       }
       height: fit-content;
+    }
+
+    .negative{
+      color: red;
+    }
+
+    .positive{
+      color: green;
     }
 
   }

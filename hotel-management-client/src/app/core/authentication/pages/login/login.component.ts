@@ -60,7 +60,7 @@ export class LoginComponent {
           this.router.navigateByUrl(returnUrl);
         },
         error: (err) => {
-          this._snackBar.open(err.message(), 'Understood');
+          this._snackBar.open(err.message, 'Understood');
           console.log(err);
         },
       });

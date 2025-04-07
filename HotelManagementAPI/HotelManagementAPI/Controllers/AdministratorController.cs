@@ -12,10 +12,12 @@ namespace HotelManagementAPI.Controllers;
 public class AdministratorController : ControllerBase
 {
     private readonly AdministratorService _administratorService;
+    private readonly SeederService _seederService;
 
-    public AdministratorController(AdministratorService administratorService)
+    public AdministratorController(AdministratorService administratorService, SeederService seederService)
     {
         _administratorService = administratorService;
+        _seederService = seederService;
     }
     
     
@@ -51,7 +53,7 @@ public class AdministratorController : ControllerBase
         });
 
     [HttpPut]
-    public Task<ActionResult> PromoteToManager([FromBody] string email, CancellationToken ct) =>
+    public Task<ActionResult> PromoteToManager([FromQuery] string email, CancellationToken ct) =>
         ExecuteSafely(async () =>
         {
             var users = await _administratorService.PromoteToManagerAsync(email, ct);
@@ -59,10 +61,19 @@ public class AdministratorController : ControllerBase
         });
 
     [HttpPut]
-    public Task<ActionResult> DegradeToGuest([FromBody] string email, CancellationToken ct) =>
+    public Task<ActionResult> DegradeToGuest([FromQuery] string email, CancellationToken ct) =>
         ExecuteSafely(async () =>
         {
             var users = await _administratorService.DegradeToGuestAsync(email, ct);
             return Ok(users);
+        });
+
+    [AllowAnonymous]
+    [HttpPost]
+    public Task<ActionResult> SeedBd(CancellationToken ct) =>
+        ExecuteSafely(async () =>
+        {
+            await _seederService.SeedAsync(ct);
+            return Ok();
         });
 }

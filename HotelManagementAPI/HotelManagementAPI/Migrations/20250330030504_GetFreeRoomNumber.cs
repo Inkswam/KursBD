@@ -30,7 +30,7 @@ namespace HotelManagementAPI.Migrations
                     SELECT r.number
                     INTO free_room_number
                     FROM rooms r
-                    LEFT JOIN reservation res
+                    LEFT JOIN reservations res
                         ON r.number = res.room_number 
                         AND r.type = res.room_type
                         AND res.check_in_date < p_checkout_date

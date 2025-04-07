@@ -6,6 +6,8 @@ import {User} from '../../shared/models/user.model';
 import {UsersReservations} from '../../shared/wrappers/users-reservations.wrapper';
 import {Reservation} from '../../shared/models/reservation.model';
 import {Booking} from '../../shared/wrappers/booking.wrapper';
+import {ChartData} from '../../shared/models/chart-data.model';
+import {ChartStatistic} from '../../shared/wrappers/chart-statistic.wrapper';
 
 @Injectable({
   providedIn: 'root'
@@ -103,5 +105,22 @@ export class ManagementService {
 
   addUserToBlacklist(email: string) : Observable<User> {
     return this.http.post<User>(`${this.url}/AddUserToBlacklist/${email}`, {}, {withCredentials: true});
+  }
+
+  getGuestChart(period: string): Observable<ChartStatistic> {
+    return this.http.get<ChartStatistic>(`${this.url}/GetGuestChart`,
+    {
+      params: {
+        period: period,
+      },
+      withCredentials: true
+    });
+  }
+
+  getEarningsChart(startDate: Date, endDate: Date): Observable<ChartStatistic> {
+    return this.http.get<ChartStatistic>(`${this.url}/GetEarningsChart/${startDate.toDateString()}/${endDate.toDateString()}`,
+    {
+      withCredentials: true
+    })
   }
 }
